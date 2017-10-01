@@ -23,19 +23,19 @@ const handleError = function(err) {
  * Validates required parameters
  * @param {Object} params Object of parameters
  */
-const validRequiredParams = function(params) {
+const validRequiredParams = function(baseUrl, username, password) {
   // Base URL
-  if (!params.baseUrl) {
+  if (typeof baseUrl !== 'string' || baseUrl === '') {
     handleError('Bitbucket Server Base URL ("-b") is required.');
   }
 
   // Username
-  if (!params.baseUrl) {
+  if (typeof username !== 'string' || username === '') {
     handleError('Bitbucket Server Username ("-u") is required.');
   }
 
   // Password
-  if (!params.baseUrl) {
+  if (typeof password !== 'string' || password === '') {
     handleError('Bitbucket Server Password ("-p") is required.');
   }
 };
@@ -45,18 +45,18 @@ const completeMessage = chalk.green.bold('bitbucket-server-cli completed success
 // configure cli options
 cliApp.version(pkg.version);
 cliApp.usage(pkg.name);
-cliApp.option('-b, --baseUrl', 'Bitbucket Server Base URL');
-cliApp.option('-u, --username', 'Bitbucket Server Username');
-cliApp.option('-p, --password', 'Bitbucket Server Password');
+cliApp.option('-b, --baseUrl <baseUrl>', 'Bitbucket Server Base URL');
+cliApp.option('-u, --username <username>', 'Bitbucket Server Username');
+cliApp.option('-p, --password <password>', 'Bitbucket Server Password');
 
 cliApp
   .command('audit-permissions')
   .alias('ap')
   .description('Audit permissions')
-  .option('-c, --config [configFile]', 'Path to config file')
-  .action(function(env, options) {
-    validRequiredParams(env);
-    const bitbucketApi = new BitbucketApi(env.baseUrl, env.username, env.password);
+  .option('-c, --config <configFile>', 'Path to config file')
+  .action(function(configFile) {
+    validRequiredParams(cliApp.baseUrl, cliApp.username, cliApp.password);
+    const bitbucketApi = new BitbucketApi(cliApp.baseUrl, cliApp.username, cliApp.password);
 
     const PermissionsPlugin = require('./plugins/permissions/PermissionsPlugin');
     const permissionsPlugin = new PermissionsPlugin(bitbucketApi);
@@ -71,10 +71,10 @@ cliApp
   .command('stale-prs')
   .alias('sp')
   .description('Fetch a list of Stale PRs')
-  .option('-c, --config [configFile]', 'Path to config file')
-  .action(function(env, options) {
-    validRequiredParams(env);
-    const bitbucketApi = new BitbucketApi(env.baseUrl, env.username, env.password);
+  .option('-c, --config <configFile>', 'Path to config file')
+  .action(function(configFile) {
+    validRequiredParams(cliApp.baseUrl, cliApp.username, cliApp.password);
+    const bitbucketApi = new BitbucketApi(cliApp.baseUrl, cliApp.username, cliApp.password);
 
     const StalePrs = require('./plugins/stale-prs/StalePrsPlugin');
     const stalePrsPlugin = new StalePrs(bitbucketApi);
@@ -89,10 +89,10 @@ cliApp
   .command('pr-stats')
   .alias('s')
   .description('Fetch PRs stats')
-  .option('-c, --config [configFile]', 'Path to config file')
-  .action(function(env, options) {
-    validRequiredParams(env);
-    const bitbucketApi = new BitbucketApi(env.baseUrl, env.username, env.password);
+  .option('-c, --config <configFile>', 'Path to config file')
+  .action(function(configFile) {
+    validRequiredParams(cliApp.baseUrl, cliApp.username, cliApp.password);
+    const bitbucketApi = new BitbucketApi(cliApp.baseUrl, cliApp.username, cliApp.password);
 
     const PullRequestStatsPlugin = require('./plugins/stats/PullRequestStatsPlugin');
     const pullRequestStatsPlugin = new PullRequestStatsPlugin(bitbucketApi);
