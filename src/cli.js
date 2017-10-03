@@ -21,7 +21,11 @@ const handleError = function(err) {
 
 /**
  * Validates required parameters
- * @param {Object} params Object of parameters
+ *
+ * @param {String} baseUrl  Base url cli parameter
+ * @param {String} username Username cli parameter
+ * @param {String} password Password cli parameter
+ * @return {undefined} No return
  */
 const validRequiredParams = function(baseUrl, username, password) {
   // Base URL
