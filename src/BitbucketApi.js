@@ -1,6 +1,6 @@
 'use strict';
 
-/* eslint id-length: 'off', class-methods-use-this: 'off', no-magic-numbers: 'off', no-param-reassign: 'off' */
+/* eslint id-length: 'off', class-methods-use-this: 'off', no-magic-numbers: 'off', no-param-reassign: 'off', no-negated-condition: 'off' */
 const request = require('request');
 
 class BitbucketAPI {
@@ -69,8 +69,8 @@ class BitbucketAPI {
               this.walker(url, queryParams, data.nextPageStart, data.limit).then((additionalValues) => {
                 values = values.concat(additionalValues);
                 resolve(values);
-              }).catch(function(error) {
-                reject(error);
+              }).catch(function(err) {
+                reject(err);
               });
             } else {
               resolve(values);
@@ -100,7 +100,8 @@ class BitbucketAPI {
         this.auth,
         (error, response, body) => {
           if (!error && response.statusCode === 200) {
-            let values = JSON.parse(body);
+            const values = JSON.parse(body);
+
             resolve(values);
           } else {
             console.log(error);
