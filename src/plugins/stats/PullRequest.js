@@ -1,7 +1,5 @@
 'use strict';
 
-const moment = require('moment');
-
 class PullRequest {
 
   /**
@@ -27,6 +25,7 @@ class PullRequest {
    * Add the number of commits
    *
    * @param {Number} count Number of commits
+   * @returns {Undefined} No return
    * @memberof PullRequest
    */
   addCommitCount(count) {
@@ -37,6 +36,7 @@ class PullRequest {
    * Add the number of tasks
    *
    * @param {Number} count Number of tasks
+   * @returns {Undefined} No return
    * @memberof PullRequest
    */
   addTaskCount(count) {
@@ -47,6 +47,7 @@ class PullRequest {
    * Add a JIRA issue that was closed by the PR
    *
    * @param {String} issueKey The JIRA issue key
+   * @returns {Undefined} No return
    * @memberof PullRequest
    */
   addIssue(issueKey) {
@@ -136,6 +137,7 @@ class PullRequest {
   getIssues() {
     return this._issues;
   }
+
 }
 
 module.exports = PullRequest;

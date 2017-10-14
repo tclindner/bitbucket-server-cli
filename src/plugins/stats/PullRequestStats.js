@@ -1,5 +1,6 @@
 'use strict';
 
+/* eslint max-statements: 'off', max-params: 'off', no-magic-numbers: 'off', prefer-template: 'off' */
 const chalk = require('chalk');
 const prettyMs = require('pretty-ms');
 
@@ -48,6 +49,7 @@ class PullRequestStats {
    * @param {Number} commitCount The number of commits.
    * @param {Number} taskCount The number of tasks.
    * @param {String} issueKeys Issues that were resolved by the PR
+   * @returns {Undefined} No return
    * @memberof PullRequestStats
    */
   updateStats(age, createdWeekDay, mergedWeekDay, commitCount, taskCount, issueKeys) {
@@ -87,6 +89,7 @@ class PullRequestStats {
    *
    * @param {Number} createdWeekDay JavaScript's number representation of the day of the week the PR was created.
    * @param {Number} mergedWeekDay JavaScript's number representation of the day of the week the PR was merged.
+   * @returns {Undefined} No return
    * @memberof PullRequestStats
    */
   _initializeCounts(createdWeekDay, mergedWeekDay) {
@@ -97,6 +100,7 @@ class PullRequestStats {
   /**
    * Increments the total count of pull requests
    *
+   * @returns {Undefined} No return
    * @memberof PullRequestStats
    */
   _incrementCount() {
@@ -107,6 +111,7 @@ class PullRequestStats {
    * Adds the age
    *
    * @param {Number} age The age of the pull request
+   * @returns {Undefined} No return
    * @memberof PullRequestStats
    */
   _addAge(age) {
@@ -117,6 +122,7 @@ class PullRequestStats {
    * Add the count of commits to the running sum
    *
    * @param {Number} commitCount The count of commits
+   * @returns {Undefined} No return
    * @memberof PullRequestStats
    */
   _addCommits(commitCount) {
@@ -127,6 +133,7 @@ class PullRequestStats {
    * Add the count of tasks to the running sum
    *
    * @param {Number} taskCount The count of tasks
+   * @returns {Undefined} No return
    * @memberof PullRequestStats
    */
   _addTasks(taskCount) {
@@ -137,6 +144,7 @@ class PullRequestStats {
    * Appends the issue keys to the message
    *
    * @param {String} issueKeys String of issue keys
+   * @returns {Undefined} No return
    * @memberof PullRequestStats
    */
   _appendIssueKeys(issueKeys) {
@@ -150,6 +158,7 @@ class PullRequestStats {
    *
    * @param {Number} weekDayInt JavaScript int value for the day of the week
    * @param {String} countType Created or merged
+   * @returns {Undefined} No return
    * @memberof PullRequestStats
    */
   _incrementSumOnDay(weekDayInt, countType) {
@@ -195,6 +204,7 @@ class PullRequestStats {
    * Increments Sunday counter
    *
    * @param {String} countType Created or merged
+   * @returns {Undefined} No return
    * @memberof PullRequestStats
    */
   _incrementCountOnSunday(countType) {
@@ -209,6 +219,7 @@ class PullRequestStats {
    * Increments Monday counter
    *
    * @param {String} countType Created or merged
+   * @returns {Undefined} No return
    * @memberof PullRequestStats
    */
   _incrementCountOnMonday(countType) {
@@ -223,6 +234,7 @@ class PullRequestStats {
    * Increments Tuesday counter
    *
    * @param {String} countType Created or merged
+   * @returns {Undefined} No return
    * @memberof PullRequestStats
    */
   _incrementCountOnTuesday(countType) {
@@ -237,6 +249,7 @@ class PullRequestStats {
    * Increments Wednesday counter
    *
    * @param {String} countType Created or merged
+   * @returns {Undefined} No return
    * @memberof PullRequestStats
    */
   _incrementCountOnWednesday(countType) {
@@ -251,6 +264,7 @@ class PullRequestStats {
    * Increments Thursday counter
    *
    * @param {String} countType Created or merged
+   * @returns {Undefined} No return
    * @memberof PullRequestStats
    */
   _incrementCountOnThursday(countType) {
@@ -265,6 +279,7 @@ class PullRequestStats {
    * Increments Friday counter
    *
    * @param {String} countType Created or merged
+   * @returns {Undefined} No return
    * @memberof PullRequestStats
    */
   _incrementCountOnFriday(countType) {
@@ -279,6 +294,7 @@ class PullRequestStats {
    * Increments Saturday counter
    *
    * @param {String} countType Created or merged
+   * @returns {Undefined} No return
    * @memberof PullRequestStats
    */
   _incrementCountOnSaturday(countType) {

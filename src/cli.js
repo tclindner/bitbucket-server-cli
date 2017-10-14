@@ -104,7 +104,7 @@ cliApp
     const pullRequestStatsPlugin = new PullRequestStatsPlugin(bitbucketApi);
 
     pullRequestStatsPlugin.execute().then(function(result) {
-      console.log(chalk.bold.green(result))
+      console.log(chalk.bold.green(result));
       console.log(completeMessage);
     }).catch(function(error) {
       handleError(error);

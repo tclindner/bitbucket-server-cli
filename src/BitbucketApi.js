@@ -1,5 +1,6 @@
 'use strict';
 
+/* eslint id-length: 'off', class-methods-use-this: 'off', no-magic-numbers: 'off', no-param-reassign: 'off' */
 const request = require('request');
 
 class BitbucketAPI {
@@ -31,11 +32,13 @@ class BitbucketAPI {
    * @memberof BitbucketAPI
    */
   _initializeValue(value, defaultValue) {
+    let val = value;
+
     if (!value) {
-      value = defaultValue;
+      val = defaultValue;
     }
 
-    return value;
+    return val;
   }
 
   /**
@@ -58,9 +61,10 @@ class BitbucketAPI {
         `${url}?start=${start}&limit=${limit}${queryParams}`,
         this.auth,
         (error, response, body) => {
-          if (!error && response.statusCode == 200) {
-            let data = JSON.parse(body);
+          if (!error && response.statusCode === 200) {
+            const data = JSON.parse(body);
             let values = data.values;
+
             if (!data.isLastPage) {
               this.walker(url, queryParams, data.nextPageStart, data.limit).then((additionalValues) => {
                 values = values.concat(additionalValues);
@@ -95,7 +99,7 @@ class BitbucketAPI {
         url,
         this.auth,
         (error, response, body) => {
-          if (!error && response.statusCode == 200) {
+          if (!error && response.statusCode === 200) {
             let values = JSON.parse(body);
             resolve(values);
           } else {
@@ -289,6 +293,7 @@ class BitbucketAPI {
 
     return this.nonPagedRequest(url);
   }
+
 }
 
 module.exports = BitbucketAPI;

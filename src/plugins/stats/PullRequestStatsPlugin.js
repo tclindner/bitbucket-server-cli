@@ -1,6 +1,5 @@
 'use strict';
 
-const chalk = require('chalk');
 const Reporter = require('./Reporter');
 const Harvester = require('./Harvester');
 const Aggregator = require('./Aggregator');
@@ -10,7 +9,7 @@ class PullRequestStatsPlugin {
 
   /**
    * Creates an instance of PullRequestStatsPlugin.
-   * @param {Object} bitbucketApi
+   * @param {Object} bitbucketApi BitbucketAPI object
    * @memberof PullRequestStatsPlugin
    */
   constructor(bitbucketApi) {
