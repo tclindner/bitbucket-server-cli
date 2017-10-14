@@ -1,6 +1,8 @@
 'use strict';
 
-let chalk = require('chalk');
+const chalk = require('chalk');
+
+/* eslint max-statements: 'off' */
 
 class Reporter {
 
@@ -8,8 +10,8 @@ class Reporter {
    * Writes to console
    *
    * @static
-   * @param {Array} statsObjArray
-   * @param {String} statsType
+   * @param {Array} statsObjArray An array of stats objects
+   * @param {String} statsType The type of stat being processed
    * @return {Undefined} No return
    * @memberof Reporter
    */
@@ -23,7 +25,7 @@ class Reporter {
       for (const projectKey in statsObjArray) {
         const currentProjectPrStats = statsObjArray[projectKey];
 
-        console.log('\t' + chalk.magenta.bold('Project: ') + chalk.magenta(projectKey));
+        console.log(`\t ${chalk.magenta.bold('Project:')} ${chalk.magenta(projectKey)}`);
         console.log(currentProjectPrStats.getMessage());
       }
     } else {
@@ -35,8 +37,8 @@ class Reporter {
         const projectName = keyParts[0];
         const repoName = keyParts[1];
 
-        console.log('\t' + chalk.magenta.bold('Project: ') + chalk.magenta(projectName));
-        console.log('\t' + chalk.magenta.bold('Repo: ') + chalk.magenta(repoName));
+        console.log(`\t ${chalk.magenta.bold('Project:')} ${chalk.magenta(projectName)}`);
+        console.log(`\t ${chalk.magenta.bold('Repo: ')} ${chalk.magenta(repoName)}`);
         console.log(currentProjectPrStats.getMessage());
       }
     }

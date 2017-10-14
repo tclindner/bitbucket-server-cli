@@ -1,7 +1,10 @@
 'use strict';
 
+/* eslint prefer-template: 'off', id-length: 'off' */
+
 const chalk = require('chalk');
 const PullRequest = require('./PullRequest');
+const notFound = -1;
 
 class Harvester {
 
@@ -69,7 +72,7 @@ class Harvester {
     const repoPromises = [];
 
     repos.forEach((repo) => {
-      if (project.excludedrepos.indexOf(repo.slug) === -1) {
+      if (project.excludedrepos.indexOf(repo.slug) === notFound) {
         repoPromises.push(this.harvestRepo(project, repo));
       }
     });
@@ -81,7 +84,7 @@ class Harvester {
    * Harvest a repo
    *
    * @param {Object} project Bitbucket project
-   * @param {Array} repos Array of repos
+   * @param {Object} repo Bitbucket repo
    * @returns {Promise} A promise that will resolve to the value of the API call
    * @memberof Harvester
    */
@@ -97,7 +100,7 @@ class Harvester {
    * Harvest a pull request
    *
    * @param {Object} project Bitbucket project
-   * @param {Object} repos Bitbucket repo
+   * @param {Object} repo Bitbucket repo
    * @returns {Promise} A promise that will resolve to the value of the API call
    * @memberof Harvester
    */
@@ -233,10 +236,10 @@ class Harvester {
   /**
    * Fetch pull request issues from API
    *
-   * @param {any} project
-   * @param {Object} repo
-   * @param {Object} pullRequest
-   * @returns
+   * @param {Object} project Bitbucket project
+   * @param {Object} repo Bitbucket repo
+   * @param {Object} pullRequest Pull request
+   * @returns {Promise} A promise that will resolve to the value of the API call
    * @memberof Harvester
    */
   retrievePullRequestIssues(project, repo, pullRequest) {
