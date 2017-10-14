@@ -19,7 +19,7 @@ class Aggregator {
    * Aggregates a set of pull requests
    *
    * @param {Array} pullRequests An array of pull requests
-   * @return {undefined} No return
+   * @returns {Undefined} No return
    * @memberof Aggregator
    */
   aggregate(pullRequests) {
@@ -49,6 +49,7 @@ class Aggregator {
    * @param {Number} commitCount Number of commmits
    * @param {Number} taskCount Number of tasks
    * @param {String} issueKeys JIRA issues resolved
+   * @returns {Undefined} No return
    * @memberof Aggregator
    */
   _updateOverallStats(key, age, createdWeekDay, mergedWeekDay, commitCount, taskCount, issueKeys) {
@@ -74,6 +75,7 @@ class Aggregator {
    * @param {Number} commitCount Number of commmits
    * @param {Number} taskCount Number of tasks
    * @param {String} issueKeys JIRA issues resolved
+   * @returns {Undefined} No return
    * @memberof Aggregator
    */
   _updateProjectStats(key, age, createdWeekDay, mergedWeekDay, commitCount, taskCount, issueKeys) {
@@ -99,6 +101,7 @@ class Aggregator {
    * @param {Number} commitCount Number of commmits
    * @param {Number} taskCount Number of tasks
    * @param {String} issueKeys JIRA issues resolved
+   * @returns {Undefined} No return
    * @memberof Aggregator
    */
   _updateRepoStats(key, age, createdWeekDay, mergedWeekDay, commitCount, taskCount, issueKeys) {

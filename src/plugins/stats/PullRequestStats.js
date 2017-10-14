@@ -1,6 +1,6 @@
 'use strict';
 
-/* eslint max-statements: 'off', max-params: 'off', no-magic-numbers: 'off', prefer-template: 'off' */
+/* eslint max-statements: 'off', max-params: 'off', no-magic-numbers: 'off', prefer-template: 'off', id-length: 'off', indent: 'off' */
 const chalk = require('chalk');
 const prettyMs = require('pretty-ms');
 
@@ -70,7 +70,7 @@ class PullRequestStats {
    * @memberof PullRequestStats
    */
   _calcAvg(sum) {
-    return (sum / this._count);
+    return sum / this._count;
   }
 
   /**
@@ -81,7 +81,7 @@ class PullRequestStats {
    * @memberof PullRequestStats
    */
   _calcPct(sum) {
-    return ((sum / this._count) * 100);
+    return (sum / this._count) * 100;
   }
 
   /**
@@ -195,6 +195,10 @@ class PullRequestStats {
 
       case 6: {
         this._incrementCountOnSaturday(countType);
+        break;
+      }
+
+      default: {
         break;
       }
     }
@@ -313,6 +317,7 @@ class PullRequestStats {
    */
   getMessage() {
     let message = this._getTotalsMessage();
+
     message += this._getAveragesMessage();
     message += this._getPercentsMessage();
     message += this._getIssuesMessage();
@@ -328,6 +333,7 @@ class PullRequestStats {
    */
   _getTotalsMessage() {
     let message = '\t\t' + chalk.cyan.bold('Total number of PRs: ') + chalk.cyan(this._count) + '\n';
+
     message += '\t\t' + chalk.cyan.bold('Total number of commits: ') + chalk.cyan(this._sumOfCommits) + '\n';
     message += '\t\t' + chalk.cyan.bold('Total number of tasks: ') + chalk.cyan(this._sumOfTasks) + '\n\n';
     message += '\t\t' + chalk.blue.bold('Total number PRs created on Sunday: ') + chalk.blue(this._countCreatedOnSunday) + '\n';
@@ -356,6 +362,7 @@ class PullRequestStats {
    */
   _getAveragesMessage() {
     let message = '\t\t' + chalk.blue.bold('Average Age: ') + chalk.blue(prettyMs(this._calcAvg(this._sumOfAge))) + '\n';
+
     message += '\t\t' + chalk.blue.bold('Average number of commits: ') + chalk.blue(this._calcAvg(this._sumOfCommits)) + '\n';
     message += '\t\t' + chalk.blue.bold('Average number of tasks: ') + chalk.blue(this._sumOfTasks / this._count) + '\n\n';
 
@@ -370,6 +377,7 @@ class PullRequestStats {
    */
   _getPercentsMessage() {
     let message = '\t\t' + chalk.cyan.bold('Pct PRs created on Sunday: ') + chalk.cyan(this._calcPct(this._countCreatedOnSunday)) + '%\n';
+
     message += '\t\t' + chalk.cyan.bold('Pct PRs created on Monday: ') + chalk.cyan(this._calcPct(this._countCreatedOnMonday)) + '%\n';
     message += '\t\t' + chalk.cyan.bold('Pct PRs created on Tuesday: ') + chalk.cyan(this._calcPct(this._countCreatedOnTuesday)) + '%\n';
     message += '\t\t' + chalk.cyan.bold('Pct PRs created on Wednesday: ') + chalk.cyan(this._calcPct(this._countCreatedOnWednesday)) + '%\n';
