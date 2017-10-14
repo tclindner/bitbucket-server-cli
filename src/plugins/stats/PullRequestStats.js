@@ -4,6 +4,18 @@ const chalk = require('chalk');
 const prettyMs = require('pretty-ms');
 
 class PullRequestStats {
+
+  /**
+   * Creates an instance of PullRequestStats.
+   *
+   * @param {Number} age Age of the PR
+   * @param {Number} createdWeekDay JavaScript's number representation of the day of the week the PR was created.
+   * @param {Number} mergedWeekDay JavaScript's number representation of the day of the week the PR was merged.
+   * @param {Number} commitCount The number of commits.
+   * @param {Number} taskCount The number of tasks.
+   * @param {String} issueKeys Issues that were resolved by the PR
+   * @memberof PullRequestStats
+   */
   constructor(age, createdWeekDay, mergedWeekDay, commitCount, taskCount, issueKeys) {
     this._sumOfAge = age;
     this._count = 1;
@@ -27,6 +39,17 @@ class PullRequestStats {
     this._initializeCounts(createdWeekDay, mergedWeekDay);
   }
 
+  /**
+   * Update the stats
+   *
+   * @param {Number} age Age of the PR
+   * @param {Number} createdWeekDay JavaScript's number representation of the day of the week the PR was created.
+   * @param {Number} mergedWeekDay JavaScript's number representation of the day of the week the PR was merged.
+   * @param {Number} commitCount The number of commits.
+   * @param {Number} taskCount The number of tasks.
+   * @param {String} issueKeys Issues that were resolved by the PR
+   * @memberof PullRequestStats
+   */
   updateStats(age, createdWeekDay, mergedWeekDay, commitCount, taskCount, issueKeys) {
     this._incrementCount();
     this._addAge(age);
@@ -37,41 +60,98 @@ class PullRequestStats {
     this._incrementSumOnDay(mergedWeekDay, 'merged');
   }
 
+  /**
+   * Calculates the average
+   *
+   * @param {Number} sum Sum
+   * @returns {Number} Average
+   * @memberof PullRequestStats
+   */
   _calcAvg(sum) {
     return (sum / this._count);
   }
 
+  /**
+   * Calculates the percentage
+   *
+   * @param {Number} sum Sum
+   * @returns {Number} Percentage
+   * @memberof PullRequestStats
+   */
   _calcPct(sum) {
     return ((sum / this._count) * 100);
   }
 
+  /**
+   * Init counts
+   *
+   * @param {Number} createdWeekDay JavaScript's number representation of the day of the week the PR was created.
+   * @param {Number} mergedWeekDay JavaScript's number representation of the day of the week the PR was merged.
+   * @memberof PullRequestStats
+   */
   _initializeCounts(createdWeekDay, mergedWeekDay) {
     this._incrementSumOnDay(createdWeekDay, 'created');
     this._incrementSumOnDay(mergedWeekDay, 'merged');
   }
 
+  /**
+   * Increments the total count of pull requests
+   *
+   * @memberof PullRequestStats
+   */
   _incrementCount() {
     this._count += 1;
   }
 
+  /**
+   * Adds the age
+   *
+   * @param {Number} age The age of the pull request
+   * @memberof PullRequestStats
+   */
   _addAge(age) {
     this._sumOfAge += age;
   }
 
+  /**
+   * Add the count of commits to the running sum
+   *
+   * @param {Number} commitCount The count of commits
+   * @memberof PullRequestStats
+   */
   _addCommits(commitCount) {
     this._sumOfCommits += commitCount;
   }
 
+  /**
+   * Add the count of tasks to the running sum
+   *
+   * @param {Number} taskCount The count of tasks
+   * @memberof PullRequestStats
+   */
   _addTasks(taskCount) {
     this._sumOfTasks += taskCount;
   }
 
+  /**
+   * Appends the issue keys to the message
+   *
+   * @param {String} issueKeys String of issue keys
+   * @memberof PullRequestStats
+   */
   _appendIssueKeys(issueKeys) {
     if (issueKeys !== '') {
       this._issueKeys = this._issueKeys === '' ? issueKeys : `${this._issueKeys}, ${issueKeys}`;
     }
   }
 
+  /**
+   * Increments count by day
+   *
+   * @param {Number} weekDayInt JavaScript int value for the day of the week
+   * @param {String} countType Created or merged
+   * @memberof PullRequestStats
+   */
   _incrementSumOnDay(weekDayInt, countType) {
     switch (weekDayInt) {
       case 0: {
@@ -111,6 +191,12 @@ class PullRequestStats {
     }
   }
 
+  /**
+   * Increments Sunday counter
+   *
+   * @param {String} countType Created or merged
+   * @memberof PullRequestStats
+   */
   _incrementCountOnSunday(countType) {
     if (countType === 'created') {
       this._countCreatedOnSunday += 1;
@@ -119,6 +205,12 @@ class PullRequestStats {
     }
   }
 
+  /**
+   * Increments Monday counter
+   *
+   * @param {String} countType Created or merged
+   * @memberof PullRequestStats
+   */
   _incrementCountOnMonday(countType) {
     if (countType === 'created') {
       this._countCreatedOnMonday += 1;
@@ -127,6 +219,12 @@ class PullRequestStats {
     }
   }
 
+  /**
+   * Increments Tuesday counter
+   *
+   * @param {String} countType Created or merged
+   * @memberof PullRequestStats
+   */
   _incrementCountOnTuesday(countType) {
     if (countType === 'created') {
       this._countCreatedOnTuesday += 1;
@@ -135,6 +233,12 @@ class PullRequestStats {
     }
   }
 
+  /**
+   * Increments Wednesday counter
+   *
+   * @param {String} countType Created or merged
+   * @memberof PullRequestStats
+   */
   _incrementCountOnWednesday(countType) {
     if (countType === 'created') {
       this._countCreatedOnWednesday += 1;
@@ -143,6 +247,12 @@ class PullRequestStats {
     }
   }
 
+  /**
+   * Increments Thursday counter
+   *
+   * @param {String} countType Created or merged
+   * @memberof PullRequestStats
+   */
   _incrementCountOnThursday(countType) {
     if (countType === 'created') {
       this._countCreatedOnThursday += 1;
@@ -151,6 +261,12 @@ class PullRequestStats {
     }
   }
 
+  /**
+   * Increments Friday counter
+   *
+   * @param {String} countType Created or merged
+   * @memberof PullRequestStats
+   */
   _incrementCountOnFriday(countType) {
     if (countType === 'created') {
       this._countCreatedOnFriday += 1;
@@ -159,6 +275,12 @@ class PullRequestStats {
     }
   }
 
+  /**
+   * Increments Saturday counter
+   *
+   * @param {String} countType Created or merged
+   * @memberof PullRequestStats
+   */
   _incrementCountOnSaturday(countType) {
     if (countType === 'created') {
       this._countCreatedOnSaturday += 1;
@@ -167,6 +289,12 @@ class PullRequestStats {
     }
   }
 
+  /**
+   * Get the message
+   *
+   * @returns {String} Formatted message
+   * @memberof PullRequestStats
+   */
   getMessage() {
     let message = this._getTotalsMessage();
     message += this._getAveragesMessage();
@@ -176,6 +304,12 @@ class PullRequestStats {
     return message;
   }
 
+  /**
+   * Get the totals message
+   *
+   * @returns {String} Formatted message
+   * @memberof PullRequestStats
+   */
   _getTotalsMessage() {
     let message = '\t\t' + chalk.cyan.bold('Total number of PRs: ') + chalk.cyan(this._count) + '\n';
     message += '\t\t' + chalk.cyan.bold('Total number of commits: ') + chalk.cyan(this._sumOfCommits) + '\n';
@@ -198,6 +332,12 @@ class PullRequestStats {
     return message;
   }
 
+  /**
+   * Get the averages message
+   *
+   * @returns {String} Formatted message
+   * @memberof PullRequestStats
+   */
   _getAveragesMessage() {
     let message = '\t\t' + chalk.blue.bold('Average Age: ') + chalk.blue(prettyMs(this._calcAvg(this._sumOfAge))) + '\n';
     message += '\t\t' + chalk.blue.bold('Average number of commits: ') + chalk.blue(this._calcAvg(this._sumOfCommits)) + '\n';
@@ -206,6 +346,12 @@ class PullRequestStats {
     return message;
   }
 
+  /**
+   * Get the percent message
+   *
+   * @returns {String} Formatted message
+   * @memberof PullRequestStats
+   */
   _getPercentsMessage() {
     let message = '\t\t' + chalk.cyan.bold('Pct PRs created on Sunday: ') + chalk.cyan(this._calcPct(this._countCreatedOnSunday)) + '%\n';
     message += '\t\t' + chalk.cyan.bold('Pct PRs created on Monday: ') + chalk.cyan(this._calcPct(this._countCreatedOnMonday)) + '%\n';
@@ -225,6 +371,12 @@ class PullRequestStats {
     return message;
   }
 
+  /**
+   * Get a formatted message for an issue
+   *
+   * @returns {String} Formatted issue message
+   * @memberof PullRequestStats
+   */
   _getIssuesMessage() {
     return '\t\t' + chalk.cyan.bold('Issues Resolved: ') + chalk.cyan(this._issueKeys) + '\n';
   }
