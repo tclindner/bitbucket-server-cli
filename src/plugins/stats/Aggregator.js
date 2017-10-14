@@ -1,18 +1,28 @@
 'use strict';
 
-const chalk = require('chalk');
-const prettyMs = require('pretty-ms');
 const PullRequestStats = require('./PullRequestStats');
 
 class Aggregator {
+
+  /**
+   * Creates an instance of Aggregator.
+   * @memberof Aggregator
+   */
   constructor() {
     this._overallStats = {};
     this._projectStats = {};
     this._repoStats = {};
   }
 
+  /**
+   * Aggregates a set of pull requests
+   *
+   * @param {Array} pullRequests
+   * @return {undefined} No return
+   * @memberof Aggregator
+   */
   aggregate(pullRequests) {
-    for (let pullRequest of pullRequests) {
+    for (const pullRequest of pullRequests) {
       const projectName = pullRequest.getProject();
       const repoName = pullRequest.getRepo();
       const age = pullRequest.getAge();

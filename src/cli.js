@@ -58,13 +58,14 @@ cliApp
   .alias('ap')
   .description('Audit permissions')
   .option('-c, --config <configFile>', 'Path to config file')
-  .action(function(configFile) {
+  .action(function() {
     validRequiredParams(cliApp.baseUrl, cliApp.username, cliApp.password);
     const bitbucketApi = new BitbucketApi(cliApp.baseUrl, cliApp.username, cliApp.password);
 
     const PermissionsPlugin = require('./plugins/permissions/PermissionsPlugin');
     const permissionsPlugin = new PermissionsPlugin(bitbucketApi);
-    permissionsPlugin.execute().then(function(results) {
+
+    permissionsPlugin.execute().then(function() {
       console.log(completeMessage);
     }).catch(function(error) {
       handleError(error);
@@ -76,13 +77,14 @@ cliApp
   .alias('sp')
   .description('Fetch a list of Stale PRs')
   .option('-c, --config <configFile>', 'Path to config file')
-  .action(function(configFile) {
+  .action(function() {
     validRequiredParams(cliApp.baseUrl, cliApp.username, cliApp.password);
     const bitbucketApi = new BitbucketApi(cliApp.baseUrl, cliApp.username, cliApp.password);
 
     const StalePrs = require('./plugins/stale-prs/StalePrsPlugin');
     const stalePrsPlugin = new StalePrs(bitbucketApi);
-    stalePrsPlugin.execute().then(function(results) {
+
+    stalePrsPlugin.execute().then(function() {
       console.log(completeMessage);
     }).catch(function(error) {
       handleError(error);
@@ -94,13 +96,15 @@ cliApp
   .alias('s')
   .description('Fetch PRs stats')
   .option('-c, --config <configFile>', 'Path to config file')
-  .action(function(configFile) {
+  .action(function() {
     validRequiredParams(cliApp.baseUrl, cliApp.username, cliApp.password);
     const bitbucketApi = new BitbucketApi(cliApp.baseUrl, cliApp.username, cliApp.password);
 
     const PullRequestStatsPlugin = require('./plugins/stats/PullRequestStatsPlugin');
     const pullRequestStatsPlugin = new PullRequestStatsPlugin(bitbucketApi);
-    pullRequestStatsPlugin.execute().then(function(results) {
+
+    pullRequestStatsPlugin.execute().then(function(result) {
+      console.log(chalk.bold.green(result))
       console.log(completeMessage);
     }).catch(function(error) {
       handleError(error);
