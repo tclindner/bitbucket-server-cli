@@ -9,7 +9,7 @@ class UrlBuilder {
    * @memberof UrlBuilder
    */
   constructor(baseUrl) {
-    this.baseUrl = baseUrl;
+    this.coreBitbucketRestUrl = `${baseUrl}/rest/api/1.0`;
   }
 
   /**
@@ -19,7 +19,7 @@ class UrlBuilder {
    * @memberof UrlBuilder
    */
   getProjectsUrl() {
-    return `${this.baseUrl}/projects`;
+    return `${this.coreBitbucketRestUrl}/projects`;
   }
 
   /**

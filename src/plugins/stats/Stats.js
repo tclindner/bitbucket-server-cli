@@ -125,10 +125,10 @@ class Stats {
    * @memberof Stats
    */
   _getTotalsMessage() {
-    let message = chalk.cyan.bold('Total number of PRs: ') + chalk.cyan(this._count) + '\n';
+    let message = chalk.cyan.bold('Total number of PRs: ') + chalk.white(this._count) + '\n';
 
-    message += chalk.cyan.bold('Total number of commits: ') + chalk.cyan(this._sumOfCommits) + '\n';
-    message += chalk.cyan.bold('Total number of tasks: ') + chalk.cyan(this._sumOfTasks) + '\n\n';
+    message += chalk.cyan.bold('Total number of commits: ') + chalk.white(this._sumOfCommits) + '\n';
+    message += chalk.cyan.bold('Total number of tasks: ') + chalk.white(this._sumOfTasks) + '\n\n';
 
     return message;
   }
@@ -140,10 +140,10 @@ class Stats {
    * @memberof Stats
    */
   _getAveragesMessage() {
-    let message = chalk.blue.bold('Average Age: ') + chalk.blue(prettyMs(this._calcAvg(this._sumOfAge))) + '\n';
+    let message = chalk.cyan.bold('Average Age: ') + chalk.white(prettyMs(this._calcAvg(this._sumOfAge))) + '\n';
 
-    message += chalk.blue.bold('Average number of commits: ') + chalk.blue(this._calcAvg(this._sumOfCommits)) + '\n';
-    message += chalk.blue.bold('Average number of tasks: ') + chalk.blue(this._sumOfTasks / this._count) + '\n\n';
+    message += chalk.cyan.bold('Average number of commits: ') + chalk.white(this._calcAvg(this._sumOfCommits)) + '\n';
+    message += chalk.cyan.bold('Average number of tasks: ') + chalk.white(this._sumOfTasks / this._count) + '\n\n';
 
     return message;
   }
@@ -168,47 +168,47 @@ class Stats {
 
     message += `${this._getDivider()} \n`;
 
-    message += `|${chalk.blue.bold(this._padString('Number PRs created', 20))}|`;
-    message += `|${chalk.blue(this._padString(this._createdOnDayCount[0], 10))}|`;
-    message += `|${chalk.blue(this._padString(this._createdOnDayCount[1], 10))}|`;
-    message += `|${chalk.blue(this._padString(this._createdOnDayCount[2], 10))}|`;
-    message += `|${chalk.blue(this._padString(this._createdOnDayCount[3], 10))}|`;
-    message += `|${chalk.blue(this._padString(this._createdOnDayCount[4], 10))}|`;
-    message += `|${chalk.blue(this._padString(this._createdOnDayCount[5], 10))}|`;
-    message += `|${chalk.blue(this._padString(this._createdOnDayCount[6], 10))}| \n`;
+    message += `|${chalk.cyan.bold(this._padString('Number PRs created', 20))}|`;
+    message += `${chalk.white(this._padString(this._createdOnDayCount[0], 10))}|`;
+    message += `${chalk.white(this._padString(this._createdOnDayCount[1], 10))}|`;
+    message += `${chalk.white(this._padString(this._createdOnDayCount[2], 10))}|`;
+    message += `${chalk.white(this._padString(this._createdOnDayCount[3], 10))}|`;
+    message += `${chalk.white(this._padString(this._createdOnDayCount[4], 10))}|`;
+    message += `${chalk.white(this._padString(this._createdOnDayCount[5], 10))}|`;
+    message += `${chalk.white(this._padString(this._createdOnDayCount[6], 10))}| \n`;
 
     message += `${this._getDivider()} \n`;
 
     message += `|${chalk.cyan.bold(this._padString('Number PRs merged', 20))}|`;
-    message += `|${chalk.cyan(this._padString(this._mergedOnDayCount[0], 10))}|`;
-    message += `|${chalk.cyan(this._padString(this._mergedOnDayCount[1], 10))}|`;
-    message += `|${chalk.cyan(this._padString(this._mergedOnDayCount[2], 10))}|`;
-    message += `|${chalk.cyan(this._padString(this._mergedOnDayCount[3], 10))}|`;
-    message += `|${chalk.cyan(this._padString(this._mergedOnDayCount[4], 10))}|`;
-    message += `|${chalk.cyan(this._padString(this._mergedOnDayCount[5], 10))}|`;
-    message += `|${chalk.cyan(this._padString(this._mergedOnDayCount[6], 10))}| \n`;
+    message += `${chalk.white(this._padString(this._mergedOnDayCount[0], 10))}|`;
+    message += `${chalk.white(this._padString(this._mergedOnDayCount[1], 10))}|`;
+    message += `${chalk.white(this._padString(this._mergedOnDayCount[2], 10))}|`;
+    message += `${chalk.white(this._padString(this._mergedOnDayCount[3], 10))}|`;
+    message += `${chalk.white(this._padString(this._mergedOnDayCount[4], 10))}|`;
+    message += `${chalk.white(this._padString(this._mergedOnDayCount[5], 10))}|`;
+    message += `${chalk.white(this._padString(this._mergedOnDayCount[6], 10))}| \n`;
 
     message += `${this._getDivider()} \n`;
 
     message += `|${chalk.cyan.bold(this._padString('Pct PRs created', 20))}|`;
-    message += `|${chalk.cyan(this._padString(this._calcPct(this._createdOnDayCount[0]), 9))}%|`;
-    message += `|${chalk.cyan(this._padString(this._calcPct(this._createdOnDayCount[1]), 9))}%|`;
-    message += `|${chalk.cyan(this._padString(this._calcPct(this._createdOnDayCount[2]), 9))}%|`;
-    message += `|${chalk.cyan(this._padString(this._calcPct(this._createdOnDayCount[3]), 9))}%|`;
-    message += `|${chalk.cyan(this._padString(this._calcPct(this._createdOnDayCount[4]), 9))}%|`;
-    message += `|${chalk.cyan(this._padString(this._calcPct(this._createdOnDayCount[5]), 9))}%|`;
-    message += `|${chalk.cyan(this._padString(this._calcPct(this._createdOnDayCount[6]), 9))}%| \n`;
+    message += `${chalk.white(this._padString(this._calcPct(this._createdOnDayCount[0]), 9))}%|`;
+    message += `${chalk.white(this._padString(this._calcPct(this._createdOnDayCount[1]), 9))}%|`;
+    message += `${chalk.white(this._padString(this._calcPct(this._createdOnDayCount[2]), 9))}%|`;
+    message += `${chalk.white(this._padString(this._calcPct(this._createdOnDayCount[3]), 9))}%|`;
+    message += `${chalk.white(this._padString(this._calcPct(this._createdOnDayCount[4]), 9))}%|`;
+    message += `${chalk.white(this._padString(this._calcPct(this._createdOnDayCount[5]), 9))}%|`;
+    message += `${chalk.white(this._padString(this._calcPct(this._createdOnDayCount[6]), 9))}%| \n`;
 
     message += `${this._getDivider()} \n`;
 
     message += `|${chalk.cyan.bold(this._padString('Pct PRs merged', 20))}|`;
-    message += `|${chalk.cyan(this._padString(this._calcPct(this._mergedOnDayCount[0]), 9))}%|`;
-    message += `|${chalk.cyan(this._padString(this._calcPct(this._mergedOnDayCount[1]), 9))}%|`;
-    message += `|${chalk.cyan(this._padString(this._calcPct(this._mergedOnDayCount[2]), 9))}%|`;
-    message += `|${chalk.cyan(this._padString(this._calcPct(this._mergedOnDayCount[3]), 9))}%|`;
-    message += `|${chalk.cyan(this._padString(this._calcPct(this._mergedOnDayCount[4]), 9))}%|`;
-    message += `|${chalk.cyan(this._padString(this._calcPct(this._mergedOnDayCount[5]), 9))}%|`;
-    message += `|${chalk.cyan(this._padString(this._calcPct(this._mergedOnDayCount[6]), 9))}%| \n`;
+    message += `${chalk.white(this._padString(this._calcPct(this._mergedOnDayCount[0]), 9))}%|`;
+    message += `${chalk.white(this._padString(this._calcPct(this._mergedOnDayCount[1]), 9))}%|`;
+    message += `${chalk.white(this._padString(this._calcPct(this._mergedOnDayCount[2]), 9))}%|`;
+    message += `${chalk.white(this._padString(this._calcPct(this._mergedOnDayCount[3]), 9))}%|`;
+    message += `${chalk.white(this._padString(this._calcPct(this._mergedOnDayCount[4]), 9))}%|`;
+    message += `${chalk.white(this._padString(this._calcPct(this._mergedOnDayCount[5]), 9))}%|`;
+    message += `${chalk.white(this._padString(this._calcPct(this._mergedOnDayCount[6]), 9))}%| \n`;
 
     message += `${this._getDivider()} \n`;
 
@@ -224,7 +224,7 @@ class Stats {
    * @memberof Stats
    */
   _padString(string, length) {
-    const padding = Array(length).join(' ');
+    const padding = Array(length + 1).join(' ');
 
     return (padding + string).slice(-padding.length);
   }
@@ -236,7 +236,7 @@ class Stats {
    * @memberof Stats
    */
   _getDivider() {
-    return '|--------------------|----------|----------|----------|----------|----------|----------|----------|';
+    return '|--------------------|----------|----------|----------|----------|----------|----------|----------| \n';
   }
 
   /**
@@ -246,7 +246,7 @@ class Stats {
    * @memberof Stats
    */
   _getIssuesMessage() {
-    return chalk.cyan.bold('Issues Resolved: ') + chalk.cyan(this._issueKeys) + '\n';
+    return chalk.cyan.bold('Issues Resolved: ') + chalk.white(this._issueKeys) + '\n';
   }
 
 }

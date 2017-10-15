@@ -37,7 +37,8 @@ class RequestHelper {
             const walkerOptions = {
               start: data.nextPageStart,
               limit: data.limit,
-              queryParams
+              queryParams,
+              auth: options.auth
             };
 
             this.walker(url, walkerOptions).then((additionalValues) => {
