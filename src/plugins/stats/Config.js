@@ -1,6 +1,5 @@
 'use strict';
 
-const chalk = require('chalk');
 const FileHelper = require('./../../FileHelper');
 const path = require('path');
 const userHome = require('user-home');
@@ -9,6 +8,13 @@ const configFileName = 'pullRequestStatsConfig.json';
 
 class Config {
 
+  /**
+   * Gets the configuration object for the plugin
+   *
+   * @static
+   * @returns {Object} Configuration object for the plugin
+   * @memberof Config
+   */
   static getConfig() {
     try {
       const filePath = path.join(userHome, configFileDirectoryName, configFileName);
