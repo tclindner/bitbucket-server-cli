@@ -17,19 +17,19 @@ class Reporter {
    */
   static write(statsObjArray, statsType) {
     if (statsType === 'overall') {
-      console.log(chalk.red.bold('Overall stats'));
+      console.log(chalk.bgWhite.black('Overall stats'));
       console.log(statsObjArray.overall.getMessage());
     } else if (statsType === 'project') {
-      console.log(chalk.red.bold('Project level stats'));
+      console.log(chalk.bgWhite.black('Project level stats'));
 
       for (const projectKey in statsObjArray) {
         const currentProjectPrStats = statsObjArray[projectKey];
 
-        console.log(`${chalk.magenta.bold('Project:')} ${chalk.magenta(projectKey)}`);
+        console.log(`${chalk.white.bold('Project:')} ${chalk.white(projectKey)}`);
         console.log(currentProjectPrStats.getMessage());
       }
     } else {
-      console.log(chalk.red.bold('Repo level stats'));
+      console.log(chalk.bgWhite.black('Repo level stats'));
 
       for (const projectKey in statsObjArray) {
         const currentProjectPrStats = statsObjArray[projectKey];
@@ -37,8 +37,8 @@ class Reporter {
         const projectName = keyParts[0];
         const repoName = keyParts[1];
 
-        console.log(`${chalk.magenta.bold('Project:')} ${chalk.magenta(projectName)}`);
-        console.log(`${chalk.magenta.bold('Repo:')} ${chalk.magenta(repoName)}`);
+        console.log(`${chalk.white.bold('Project:')} ${chalk.white(projectName)}`);
+        console.log(`${chalk.white.bold('Repo:')} ${chalk.white(repoName)}`);
         console.log(currentProjectPrStats.getMessage());
       }
     }
