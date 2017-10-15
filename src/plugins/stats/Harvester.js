@@ -76,7 +76,7 @@ class Harvester {
       return Promise.all(repoPromises).then((arrayOfArrayOfPullRequestObjs) => {
         const arrayOfPullRequestObjs = [].concat.apply([], arrayOfArrayOfPullRequestObjs);
 
-        resolve(arrayOfPullRequestObjs)
+        resolve(arrayOfPullRequestObjs);
       }).catch((error) => {
         reject(new Error(error));
       });
@@ -136,7 +136,7 @@ class Harvester {
       }
 
       Promise.all(pullRequestPromises).then((arrayOfPullRequestObjs) => {
-        resolve(arrayOfPullRequestObjs)
+        resolve(arrayOfPullRequestObjs);
       }).catch((error) => {
         reject(new Error(error));
       });

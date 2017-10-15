@@ -15,6 +15,7 @@ class RequestHelper {
    *        {String} options.queryParams Query string parameters to add to the request
    *        {Number} options.start Page to start on
    *        {Number} options.limit Number of items to limit in the request
+   *        {Object} options.auth Basic auth
    * @returns {Promise} A promise that will resolve to the value of the API call
    * @memberof RequestHelper
    */
@@ -59,12 +60,14 @@ class RequestHelper {
    *
    * @static
    * @param {String} url API endpoint to call
+   * @param {Object} options Configuration for request
+   *        {Object} options.auth Basic auth
    * @returns {Promise} A promise that will resolve to the value of the API call
    * @memberof RequestHelper
    */
-  static nonPagedRequest(auth, url) {
+  static nonPagedRequest(url, options) {
     return new Promise((resolve, reject) => {
-      request.get(url, auth, (error, response, body) => {
+      request.get(url, options.auth, (error, response, body) => {
         if (!error && response.statusCode === OK) {
           resolve(JSON.parse(body));
         } else {
