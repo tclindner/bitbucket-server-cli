@@ -25,7 +25,7 @@ class Reporter {
       for (const projectKey in statsObjArray) {
         const currentProjectPrStats = statsObjArray[projectKey];
 
-        console.log(`\t ${chalk.magenta.bold('Project:')} ${chalk.magenta(projectKey)}`);
+        console.log(`${chalk.magenta.bold('Project:')} ${chalk.magenta(projectKey)}`);
         console.log(currentProjectPrStats.getMessage());
       }
     } else {
@@ -37,8 +37,8 @@ class Reporter {
         const projectName = keyParts[0];
         const repoName = keyParts[1];
 
-        console.log(`\t ${chalk.magenta.bold('Project:')} ${chalk.magenta(projectName)}`);
-        console.log(`\t ${chalk.magenta.bold('Repo: ')} ${chalk.magenta(repoName)}`);
+        console.log(`${chalk.magenta.bold('Project:')} ${chalk.magenta(projectName)}`);
+        console.log(`${chalk.magenta.bold('Repo:')} ${chalk.magenta(repoName)}`);
         console.log(currentProjectPrStats.getMessage());
       }
     }

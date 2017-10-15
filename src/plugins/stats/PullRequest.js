@@ -81,7 +81,7 @@ class PullRequest {
   /**
    * Get the age of the pull request
    *
-   * @returns {Number} Age of the pull request
+   * @returns {Number} Age of the pull request in milliseconds
    * @memberof PullRequest
    */
   getAge() {

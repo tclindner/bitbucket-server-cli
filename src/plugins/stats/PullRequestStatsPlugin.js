@@ -9,14 +9,12 @@ class PullRequestStatsPlugin {
 
   /**
    * Creates an instance of PullRequestStatsPlugin.
-   * @param {Object} bitbucketApi BitbucketAPI object
+   * @param {Object} bitbucketApiClient BitbucketApiClient object
    * @memberof PullRequestStatsPlugin
    */
-  constructor(bitbucketApi) {
+  constructor(bitbucketApiClient) {
     this.pullRequestStatsConfig = Config.getConfig();
-    this.bitbucketApi = bitbucketApi;
-
-    this.harvester = new Harvester(bitbucketApi, this.pullRequestStatsConfig.startDate, this.pullRequestStatsConfig.endDate);
+    this.bitbucketApiClient = bitbucketApiClient;
   }
 
   /**
@@ -28,16 +26,18 @@ class PullRequestStatsPlugin {
   execute() {
     return new Promise((resolve, reject) => {
       const promises = [];
+      const harvester = new Harvester(bitbucketApiClient, this.pullRequestStatsConfig.startDate, this.pullRequestStatsConfig.endDate);
+
 
       for (const project in this.pullRequestStatsConfig.projects) {
-        promises.push(this.harvester.harvestProject(this.pullRequestStatsConfig.projects[project]));
+        promises.push(harvester.harvestProject(this.pullRequestStatsConfig.projects[project]));
       }
 
-      Promise.all(promises).then(() => {
-        const pullRequests = this.harvester.getPullRequests();
+      Promise.all(promises).then((arrayOfArrayOfPullRequestObjs) => {
+        const arrayOfPullRequestObjs = [].concat.apply([], arrayOfArrayOfPullRequestObjs);
         const aggregator = new Aggregator();
 
-        aggregator.aggregate(pullRequests);
+        aggregator.aggregate(arrayOfPullRequestObjs);
         Reporter.write(aggregator.getOverallStats(), 'overall');
         Reporter.write(aggregator.getProjectStats(), 'project');
         Reporter.write(aggregator.getRepoStats(), 'repo');

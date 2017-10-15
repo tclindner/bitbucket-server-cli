@@ -4,7 +4,7 @@
 const chalk = require('chalk');
 const cliApp = require('commander');
 const pkg = require('./../package.json');
-const BitbucketApi = require('./BitbucketApi');
+const BitbucketApi = require('./api/BitbucketApi');
 
 /**
  * Error handler
