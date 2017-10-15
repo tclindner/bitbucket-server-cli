@@ -15,7 +15,6 @@ class BitbucketApiClient {
    * @memberof BitbucketApiClient
    */
   constructor(baseUrl, username, password) {
-    this.coreBitbucketRestUrl = `${baseUrl}/rest/api/1.0`;
     this.jiraBitbucketIntegrationRestUrl = `${baseUrl}/rest/jira/1.0`;
     this.auth = {
       auth: {
@@ -146,10 +145,10 @@ class BitbucketApiClient {
     }
 
     const url = this.urlBuilder.getPullRequestUrl(projectKey, repoKey);
-    const urlParams = `&state=${state}`;
+    const queryParams = `&state=${state}`;
     const options = {
       auth: this.auth,
-      urlParams
+      queryParams
     };
 
     return RequestHelper.walker(url, options);

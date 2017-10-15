@@ -4,7 +4,7 @@
 const chalk = require('chalk');
 const cliApp = require('commander');
 const pkg = require('./../package.json');
-const BitbucketApi = require('./api/BitbucketApi');
+const BitbucketApiClient = require('./api/BitbucketApiClient');
 
 /**
  * Error handler
@@ -60,10 +60,10 @@ cliApp
   .option('-c, --config <configFile>', 'Path to config file')
   .action(function() {
     validRequiredParams(cliApp.baseUrl, cliApp.username, cliApp.password);
-    const bitbucketApi = new BitbucketApi(cliApp.baseUrl, cliApp.username, cliApp.password);
+    const bitbucketApiClient = new BitbucketApiClient(cliApp.baseUrl, cliApp.username, cliApp.password);
 
     const PermissionsPlugin = require('./plugins/permissions/PermissionsPlugin');
-    const permissionsPlugin = new PermissionsPlugin(bitbucketApi);
+    const permissionsPlugin = new PermissionsPlugin(bitbucketApiClient);
 
     permissionsPlugin.execute().then(function() {
       console.log(completeMessage);
@@ -79,10 +79,10 @@ cliApp
   .option('-c, --config <configFile>', 'Path to config file')
   .action(function() {
     validRequiredParams(cliApp.baseUrl, cliApp.username, cliApp.password);
-    const bitbucketApi = new BitbucketApi(cliApp.baseUrl, cliApp.username, cliApp.password);
+    const bitbucketApiClient = new BitbucketApiClient(cliApp.baseUrl, cliApp.username, cliApp.password);
 
     const StalePrs = require('./plugins/stale-prs/StalePrsPlugin');
-    const stalePrsPlugin = new StalePrs(bitbucketApi);
+    const stalePrsPlugin = new StalePrs(bitbucketApiClient);
 
     stalePrsPlugin.execute().then(function() {
       console.log(completeMessage);
@@ -98,10 +98,10 @@ cliApp
   .option('-c, --config <configFile>', 'Path to config file')
   .action(function() {
     validRequiredParams(cliApp.baseUrl, cliApp.username, cliApp.password);
-    const bitbucketApi = new BitbucketApi(cliApp.baseUrl, cliApp.username, cliApp.password);
+    const bitbucketApiClient = new BitbucketApiClient(cliApp.baseUrl, cliApp.username, cliApp.password);
 
     const PullRequestStatsPlugin = require('./plugins/stats/PullRequestStatsPlugin');
-    const pullRequestStatsPlugin = new PullRequestStatsPlugin(bitbucketApi);
+    const pullRequestStatsPlugin = new PullRequestStatsPlugin(bitbucketApiClient);
 
     pullRequestStatsPlugin.execute().then(function(result) {
       console.log(chalk.bold.green(result));

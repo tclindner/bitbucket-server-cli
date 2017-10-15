@@ -48,6 +48,8 @@ class Harvester {
         this.harvestProjectRepos(project, repos).then((arrayOfPullRequestObjs) => {
           console.log(chalk.green(chalk.bold(project.key) + ' project harvest complete'));
           resolve(arrayOfPullRequestObjs);
+        }).catch((error) => {
+          reject(new Error(error));
         });
       }).catch((error) => {
         reject(new Error(error));
@@ -73,7 +75,7 @@ class Harvester {
         }
       });
 
-      return Promise.all(repoPromises).then((arrayOfArrayOfPullRequestObjs) => {
+      Promise.all(repoPromises).then((arrayOfArrayOfPullRequestObjs) => {
         const arrayOfPullRequestObjs = [].concat.apply([], arrayOfArrayOfPullRequestObjs);
 
         resolve(arrayOfPullRequestObjs);
@@ -109,6 +111,8 @@ class Harvester {
       this.bitbucketApiClient.getPullRequests(repo.project.key, repo.slug, 'MERGED').then((pullRequests) => {
         this.processPullRequests(project, repo, pullRequests).then(function(arrayOfPullRequestObjs) {
           resolve(arrayOfPullRequestObjs);
+        }).catch(function(error) {
+          reject(new Error(error));
         });
       }).catch(function(error) {
         reject(new Error(error));
@@ -207,8 +211,7 @@ class Harvester {
       this.bitbucketApiClient.getPullRequestCommits(repo.project.key, repo.slug, pullRequest.id).then((pullRequestCommits) => {
         resolve(pullRequestCommits.length);
       }).catch((error) => {
-        console.log(error);
-        reject(error);
+        reject(new Error(error));
       });
     });
   }
