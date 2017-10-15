@@ -80,14 +80,14 @@ class Aggregator {
    */
   _updateProjectStats(key, age, createdWeekDay, mergedWeekDay, commitCount, taskCount, issueKeys) {
     if (!this._projectStats.hasOwnProperty(key)) {
-      const Stats = new Stats(age, createdWeekDay, mergedWeekDay, commitCount, taskCount, issueKeys);
+      const stats = new Stats(age, createdWeekDay, mergedWeekDay, commitCount, taskCount, issueKeys);
 
-      this._projectStats[key] = Stats;
+      this._projectStats[key] = stats;
     } else {
-      const Stats = this._projectStats[key];
+      const stats = this._projectStats[key];
 
-      Stats.update(age, createdWeekDay, mergedWeekDay, commitCount, taskCount, issueKeys);
-      this._projectStats[key] = Stats;
+      stats.update(age, createdWeekDay, mergedWeekDay, commitCount, taskCount, issueKeys);
+      this._projectStats[key] = stats;
     }
   }
 
@@ -106,14 +106,14 @@ class Aggregator {
    */
   _updateRepoStats(key, age, createdWeekDay, mergedWeekDay, commitCount, taskCount, issueKeys) {
     if (!this._repoStats.hasOwnProperty(key)) {
-      const Stats = Stats(age, createdWeekDay, mergedWeekDay, commitCount, taskCount, issueKeys);
+      const stats = new Stats(age, createdWeekDay, mergedWeekDay, commitCount, taskCount, issueKeys);
 
-      this._repoStats[key] = Stats;
+      this._repoStats[key] = stats;
     } else {
-      const Stats = this._repoStats[key];
+      const stats = this._repoStats[key];
 
-      Stats.update(age, createdWeekDay, mergedWeekDay, commitCount, taskCount, issueKeys);
-      this._repoStats[key] = Stats;
+      stats.update(age, createdWeekDay, mergedWeekDay, commitCount, taskCount, issueKeys);
+      this._repoStats[key] = stats;
     }
   }
 

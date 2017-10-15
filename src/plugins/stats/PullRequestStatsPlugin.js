@@ -1,5 +1,6 @@
 'use strict';
 
+/* eslint id-length: 'off' */
 const Reporter = require('./Reporter');
 const Harvester = require('./Harvester');
 const Aggregator = require('./Aggregator');
@@ -26,7 +27,7 @@ class PullRequestStatsPlugin {
   execute() {
     return new Promise((resolve, reject) => {
       const promises = [];
-      const harvester = new Harvester(bitbucketApiClient, this.pullRequestStatsConfig.startDate, this.pullRequestStatsConfig.endDate);
+      const harvester = new Harvester(this.bitbucketApiClient, this.pullRequestStatsConfig.startDate, this.pullRequestStatsConfig.endDate);
 
 
       for (const project in this.pullRequestStatsConfig.projects) {

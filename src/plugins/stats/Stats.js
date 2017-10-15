@@ -1,6 +1,6 @@
 'use strict';
 
-/* eslint max-statements: 'off', max-params: 'off', no-magic-numbers: 'off', prefer-template: 'off', id-length: 'off', indent: 'off' */
+/* eslint max-statements: 'off', max-params: 'off', no-magic-numbers: 'off', prefer-template: 'off', id-length: 'off', indent: 'off', class-methods-use-this: 'off' */
 const chalk = require('chalk');
 const prettyMs = require('pretty-ms');
 
@@ -229,6 +229,12 @@ class Stats {
     return (padding + string).slice(-padding.length);
   }
 
+  /**
+   * Get a table divider string
+   *
+   * @returns {String} Table divider
+   * @memberof Stats
+   */
   _getDivider() {
     return '|--------------------|----------|----------|----------|----------|----------|----------|----------|';
   }

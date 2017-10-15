@@ -1,6 +1,6 @@
 'use strict';
 
-/* eslint id-length: 'off', class-methods-use-this: 'off', no-magic-numbers: 'off', no-param-reassign: 'off', no-negated-condition: 'off' */
+/* eslint id-length: 'off', class-methods-use-this: 'off', no-magic-numbers: 'off', object-curly-newline: 'off', no-param-reassign: 'off', no-negated-condition: 'off' */
 const RequestHelper = require('./RequestHelper');
 const UrlBuilder = require('./UrlBuilder');
 
