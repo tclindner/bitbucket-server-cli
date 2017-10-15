@@ -1,34 +1,49 @@
-"use strict";
+'use strict';
 
-let chalk = require("chalk");
+const chalk = require('chalk');
+
+/* eslint max-statements: 'off' */
 
 class Reporter {
-  static write(statsObjArray, statsType) {
-    if (statsType === "overall") {
-      console.log(chalk.red.bold("Overall stats"));
-      console.log(statsObjArray.overall.getMessage());
-    } else if (statsType === "project") {
-      console.log(chalk.red.bold("Project level stats"));
 
-      for (let projectKey in statsObjArray) {
-        let currentProjectPullRequestStats = statsObjArray[projectKey];
-        console.log("\t" + chalk.magenta.bold("Project: ") + chalk.magenta(projectKey));
-        console.log(currentProjectPullRequestStats.getMessage());
+  /**
+   * Writes to console
+   *
+   * @static
+   * @param {Array} statsObjArray An array of stats objects
+   * @param {String} statsType The type of stat being processed
+   * @return {Undefined} No return
+   * @memberof Reporter
+   */
+  static write(statsObjArray, statsType) {
+    if (statsType === 'overall') {
+      console.log(chalk.bgWhite.black('Overall stats'));
+      console.log(statsObjArray.overall.getMessage());
+    } else if (statsType === 'project') {
+      console.log(chalk.bgWhite.black('Project level stats'));
+
+      for (const projectKey in statsObjArray) {
+        const currentProjectPrStats = statsObjArray[projectKey];
+
+        console.log(`${chalk.white.bold('Project:')} ${chalk.white(projectKey)}`);
+        console.log(currentProjectPrStats.getMessage());
       }
     } else {
-      console.log(chalk.red.bold("Repo level stats"));
+      console.log(chalk.bgWhite.black('Repo level stats'));
 
-      for (let projectKey in statsObjArray) {
-        let currentProjectPullRequestStats = statsObjArray[projectKey];
-        let keyParts = projectKey.split("|");
-        let projectName = keyParts[0];
-        let repoName = keyParts[1];
-        console.log("\t" + chalk.magenta.bold("Project: ") + chalk.magenta(projectName));
-        console.log("\t" + chalk.magenta.bold("Repo: ") + chalk.magenta(repoName));
-        console.log(currentProjectPullRequestStats.getMessage());
+      for (const projectKey in statsObjArray) {
+        const currentProjectPrStats = statsObjArray[projectKey];
+        const keyParts = projectKey.split('|');
+        const projectName = keyParts[0];
+        const repoName = keyParts[1];
+
+        console.log(`${chalk.white.bold('Project:')} ${chalk.white(projectName)}`);
+        console.log(`${chalk.white.bold('Repo:')} ${chalk.white(repoName)}`);
+        console.log(currentProjectPrStats.getMessage());
       }
     }
   }
+
 }
 
 module.exports = Reporter;

@@ -1,157 +1,259 @@
 'use strict';
 
-let chalk = require('chalk');
-let dateparser = require('dateparser');
-let PullRequest = require('./PullRequest');
+/* eslint prefer-template: 'off', id-length: 'off' */
+
+const chalk = require('chalk');
+const PullRequest = require('./PullRequest');
+const notFound = -1;
 
 class Harvester {
-  constructor(bitbucket, startDate, endDate) {
-    this.bitbucket = bitbucket;
-    this.pullRequests = [];
+
+  /**
+   * Creates an instance of Harvester.
+   * @param {Object} bitbucketApiClient BitbucketApiClient object
+   * @param {String} startDate Date as a string (MM/DD/YYYY)
+   * @param {String} endDate Date as a string (MM/DD/YYYY)
+   * @memberof Harvester
+   */
+  constructor(bitbucketApiClient, startDate, endDate) {
+    this.bitbucketApiClient = bitbucketApiClient;
     this.startDate = startDate;
     this.endDate = endDate;
     this.startDateInMillisecs = new Date(startDate).getTime();
     this.endDateInMillisecs = new Date(endDate).getTime();
   }
 
+  /**
+   * Harvest a project
+   *
+   * @param {Object} project Project configuration from config file.
+   * @returns {Promise} A promise that will resolve to the value of the API call
+   * @memberof Harvester
+   */
   harvestProject(project) {
-    let projectPromises = [];
-
-    projectPromises.push(this.processProjectRepos(project));
-
-    return Promise.all(projectPromises);
+    return this.processProjectRepos(project);
   }
 
+  /**
+   * Process project repos
+   *
+   * @param {Object} project Project configuration from config file.
+   * @returns {Promise} A promise that will resolve to the value of the API call
+   * @memberof Harvester
+   */
   processProjectRepos(project) {
     // Fetch Repo Info Below
     return new Promise((resolve, reject) => {
-      this.bitbucket.retrieveRepositories(project.key).then((repos) => {
-        this.harvestProjectRepos(project, repos).then(function() {
+      this.bitbucketApiClient.getRepos(project.key).then((repos) => {
+        this.harvestProjectRepos(project, repos).then((arrayOfPullRequestObjs) => {
           console.log(chalk.green(chalk.bold(project.key) + ' project harvest complete'));
-          resolve();
+          resolve(arrayOfPullRequestObjs);
+        }).catch((error) => {
+          reject(new Error(error));
         });
-      }).catch(function(error) {
-        reject(error);
+      }).catch((error) => {
+        reject(new Error(error));
       });
     });
   }
 
+  /**
+   * Harvest project repos
+   *
+   * @param {Object} project Project configuration from config file.
+   * @param {Array} repos Array of repos
+   * @returns {Promise} A promise that will resolve to the value of the API call
+   * @memberof Harvester
+   */
   harvestProjectRepos(project, repos) {
-    let repoPromises = [];
+    return new Promise((resolve, reject) => {
+      const repoPromises = [];
 
-    repos.forEach((repo) => {
-      if (project.excludedrepos.indexOf(repo.slug) === -1) {
-        repoPromises.push(this.harvestRepo(project, repo));
-      }
+      repos.forEach((repo) => {
+        if (project.excludedrepos.indexOf(repo.slug) === notFound) {
+          repoPromises.push(this.harvestRepo(project, repo));
+        }
+      });
+
+      Promise.all(repoPromises).then((arrayOfArrayOfPullRequestObjs) => {
+        const arrayOfPullRequestObjs = [].concat.apply([], arrayOfArrayOfPullRequestObjs);
+
+        resolve(arrayOfPullRequestObjs);
+      }).catch((error) => {
+        reject(new Error(error));
+      });
     });
-
-    return Promise.all(repoPromises);
   }
 
+  /**
+   * Harvest a repo
+   *
+   * @param {Object} project Project configuration from config file.
+   * @param {Object} repo Bitbucket repo
+   * @returns {Promise} A promise that will resolve to the value of the API call
+   * @memberof Harvester
+   */
   harvestRepo(project, repo) {
-    let repoPromises = [];
-
-    repoPromises.push(this.harvestPullRequests(project, repo));
-
-    return Promise.all(repoPromises);
+    return this.harvestPullRequests(project, repo);
   }
 
+  /**
+   * Harvest a pull request
+   *
+   * @param {Object} project Bitbucket project
+   * @param {Object} repo Bitbucket repo
+   * @returns {Promise} A promise that will resolve to the value of the API call
+   * @memberof Harvester
+   */
   harvestPullRequests(project, repo) {
     // Fetch Repo Info Below
     return new Promise((resolve, reject) => {
-      this.bitbucket.retrievePullRequests(repo.project.key, repo.slug, 'MERGED').then((pullRequests) => {
-        this.processPullRequests(project, repo, pullRequests).then(function() {
-          resolve();
+      this.bitbucketApiClient.getPullRequests(repo.project.key, repo.slug, 'MERGED').then((pullRequests) => {
+        this.processPullRequests(project, repo, pullRequests).then(function(arrayOfPullRequestObjs) {
+          resolve(arrayOfPullRequestObjs);
+        }).catch(function(error) {
+          reject(new Error(error));
         });
       }).catch(function(error) {
-        reject(error);
+        reject(new Error(error));
       });
     });
   }
 
+  /**
+   * Process pull request
+   *
+   * @param {Object} project Bitbucket project
+   * @param {Object} repo Bitbucket repo
+   * @param {Array} pullRequests Array of pull requests
+   * @returns {Promise} A promise that will resolve to the value of the API call
+   * @memberof Harvester
+   */
   processPullRequests(project, repo, pullRequests) {
-    let pullRequestPromises = [];
+    return new Promise((resolve, reject) => {
+      const pullRequestPromises = [];
 
-    for (let pullRequest of pullRequests) {
-      if (pullRequest.updatedDate >= this.startDateInMillisecs && pullRequest.updatedDate <= this.endDateInMillisecs) {
-        pullRequestPromises.push(this.processPullRequest(project, repo, pullRequest));
+      for (const pullRequest of pullRequests) {
+        if (pullRequest.updatedDate >= this.startDateInMillisecs && pullRequest.updatedDate <= this.endDateInMillisecs) {
+          pullRequestPromises.push(this.processPullRequest(project, repo, pullRequest));
+        }
       }
-    }
 
-    return Promise.all(pullRequestPromises);
+      Promise.all(pullRequestPromises).then((arrayOfPullRequestObjs) => {
+        resolve(arrayOfPullRequestObjs);
+      }).catch((error) => {
+        reject(new Error(error));
+      });
+    });
   }
 
+  /**
+   * Process pull request
+   *
+   * @param {Object} project Bitbucket project
+   * @param {Object} repo Bitbucket repo
+   * @param {Object} pullRequest Pull request
+   * @returns {Promise} A promise that will resolve to the value of the API call
+   * @memberof Harvester
+   */
   processPullRequest(project, repo, pullRequest) {
     return new Promise((resolve, reject) => {
       this.retrievePullRequestDetails(project, repo, pullRequest).then((values) => {
-        let pullRequestObj = new PullRequest(project.key, repo.slug, pullRequest);
+        const pullRequestObj = new PullRequest(project.key, repo.slug, pullRequest);
+        const pullRequestCommits = values[0];
+        const pullRequestTaskCount = values[1];
+        const pullRequestIssues = values[2];
 
-        let pullRequestCommits = values[0];
         pullRequestObj.addCommitCount(pullRequestCommits);
-
-        let pullRequestTaskCount = values[1];
         pullRequestObj.addTaskCount(pullRequestTaskCount);
 
-        let pullRequestIssues = values[2];
-
-        for (let pullRequestIssue of pullRequestIssues) {
+        for (const pullRequestIssue of pullRequestIssues) {
           pullRequestObj.addIssue(pullRequestIssue.key);
         }
 
-        this.pullRequests.push(pullRequestObj);
-        resolve();
+        resolve(pullRequestObj);
       }).catch(function(error) {
-        reject(error);
+        reject(new Error(error));
       });
     });
   }
 
+  /**
+   * Retrieve pull request details
+   *
+   * @param {Object} project Bitbucket project
+   * @param {Object} repo Bitbucket repo
+   * @param {Object} pullRequest Pull request
+   * @returns {Promise} A promise that will resolve to the value of the API call
+   * @memberof Harvester
+   */
   retrievePullRequestDetails(project, repo, pullRequest) {
-    let pullRequestDetailsPromises = [];
+    const pullRequestDetailsPromises = [];
 
-    pullRequestDetailsPromises.push(this.retrievePullRequestCommits(project, repo, pullRequest));
-    pullRequestDetailsPromises.push(this.retrievePullRequestTaskCount(project, repo, pullRequest));
-    pullRequestDetailsPromises.push(this.retrievePullRequestIssues(project, repo, pullRequest));
+    pullRequestDetailsPromises.push(this.getPullRequestCommits(project, repo, pullRequest));
+    pullRequestDetailsPromises.push(this.getPullRequestTaskCount(project, repo, pullRequest));
+    pullRequestDetailsPromises.push(this.getPullRequestIssues(project, repo, pullRequest));
 
     return Promise.all(pullRequestDetailsPromises);
   }
 
-  retrievePullRequestCommits(project, repo, pullRequest) {
+  /**
+   * Retrieve pull request commits
+   *
+   * @param {Object} project Bitbucket project
+   * @param {Object} repo Bitbucket repo
+   * @param {Object} pullRequest Pull request
+   * @returns {Promise} A promise that will resolve to the value of the API call
+   * @memberof Harvester
+   */
+  getPullRequestCommits(project, repo, pullRequest) {
     return new Promise((resolve, reject) => {
-      this.bitbucket.retrievePullRequestCommits(repo.project.key, repo.slug, pullRequest.id).then((pullRequestCommits) => {
+      this.bitbucketApiClient.getPullRequestCommits(repo.project.key, repo.slug, pullRequest.id).then((pullRequestCommits) => {
         resolve(pullRequestCommits.length);
       }).catch((error) => {
-        console.log(error);
-        reject(error);
+        reject(new Error(error));
       });
     });
   }
 
-  retrievePullRequestTaskCount(project, repo, pullRequest) {
+  /**
+   * Retrieve pull request task count
+   *
+   * @param {Object} project Bitbucket project
+   * @param {Object} repo Bitbucket repo
+   * @param {Object} pullRequest Pull request
+   * @returns {Promise} A promise that will resolve to the value of the API call
+   * @memberof Harvester
+   */
+  getPullRequestTaskCount(project, repo, pullRequest) {
     return new Promise((resolve, reject) => {
-      this.bitbucket.retrievePullRequestTaskCount(repo.project.key, repo.slug, pullRequest.id).then((pullRequestTaskCount) => {
+      this.bitbucketApiClient.getPullRequestTaskCount(repo.project.key, repo.slug, pullRequest.id).then((pullRequestTaskCount) => {
         resolve(pullRequestTaskCount.resolved);
       }).catch(function(error) {
-        console.log(error);
-        reject(error);
+        reject(new Error(error));
       });
     });
   }
 
-  retrievePullRequestIssues(project, repo, pullRequest) {
+  /**
+   * Fetch pull request issues from API
+   *
+   * @param {Object} project Bitbucket project
+   * @param {Object} repo Bitbucket repo
+   * @param {Object} pullRequest Pull request
+   * @returns {Promise} A promise that will resolve to the value of the API call
+   * @memberof Harvester
+   */
+  getPullRequestIssues(project, repo, pullRequest) {
     return new Promise((resolve, reject) => {
-      this.bitbucket.retrievePullRequestIssues(repo.project.key, repo.slug, pullRequest.id).then((pullRequestIssues) => {
+      this.bitbucketApiClient.getPullRequestIssues(repo.project.key, repo.slug, pullRequest.id).then((pullRequestIssues) => {
         resolve(pullRequestIssues);
       }).catch(function(error) {
-        console.log(error);
-        reject(error);
+        reject(new Error(error));
       });
     });
   }
 
-  getPullRequests() {
-    return this.pullRequests;
-  }
 }
 
 module.exports = Harvester;
