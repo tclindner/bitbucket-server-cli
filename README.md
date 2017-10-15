@@ -44,7 +44,7 @@ First thing first, let's make sure you have the necessary pre-requisites.
 ### Global Options
 
 | Option | Alias | Description |
-|---|---|---|---|
+|---|---|---|
 | bitbucket-server-cli --help | bitbucket-server-cli -h | Lists supported CLI options |
 | bitbucket-server-cli --version | bitbucket-server-cli -v | Lists the current version number |
 | bitbucket-server-cli --baseUrl | bitbucket-server-cli -b | Bitbucket Server Base URL |
