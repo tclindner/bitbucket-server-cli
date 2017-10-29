@@ -3,6 +3,7 @@
 /* eslint max-statements: 'off', max-params: 'off', no-magic-numbers: 'off', prefer-template: 'off', id-length: 'off', indent: 'off', class-methods-use-this: 'off' */
 const chalk = require('chalk');
 const prettyMs = require('pretty-ms');
+const twoDecimalPlaces = -2;
 
 class Stats {
 
@@ -86,7 +87,7 @@ class Stats {
    * @memberof Stats
    */
   _calcPct(sum) {
-    return (sum / this._count) * 100;
+    return Math.round10((sum / this._count) * 100, twoDecimalPlaces);
   }
 
   /**
