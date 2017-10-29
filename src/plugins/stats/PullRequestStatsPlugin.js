@@ -29,7 +29,6 @@ class PullRequestStatsPlugin {
       const promises = [];
       const harvester = new Harvester(this.bitbucketApiClient, this.pullRequestStatsConfig.startDate, this.pullRequestStatsConfig.endDate);
 
-
       for (const project in this.pullRequestStatsConfig.projects) {
         promises.push(harvester.harvestProject(this.pullRequestStatsConfig.projects[project]));
       }
