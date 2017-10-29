@@ -166,7 +166,7 @@ class Stats {
     message += `${this._padString('Friday', 10)}|`;
     message += `${this._padString('Saturday', 10)}| \n`;
 
-    message += `${this._getDivider()} \n`;
+    message += `${this._getDivider()}`;
 
     message += `|${chalk.cyan.bold(this._padString('Number PRs created', 20))}|`;
     message += `${chalk.white(this._padString(this._createdOnDayCount[0], 10))}|`;
@@ -177,7 +177,7 @@ class Stats {
     message += `${chalk.white(this._padString(this._createdOnDayCount[5], 10))}|`;
     message += `${chalk.white(this._padString(this._createdOnDayCount[6], 10))}| \n`;
 
-    message += `${this._getDivider()} \n`;
+    message += `${this._getDivider()}`;
 
     message += `|${chalk.cyan.bold(this._padString('Number PRs merged', 20))}|`;
     message += `${chalk.white(this._padString(this._mergedOnDayCount[0], 10))}|`;
@@ -188,7 +188,7 @@ class Stats {
     message += `${chalk.white(this._padString(this._mergedOnDayCount[5], 10))}|`;
     message += `${chalk.white(this._padString(this._mergedOnDayCount[6], 10))}| \n`;
 
-    message += `${this._getDivider()} \n`;
+    message += `${this._getDivider()}`;
 
     message += `|${chalk.cyan.bold(this._padString('Pct PRs created', 20))}|`;
     message += `${chalk.white(this._padString(this._calcPct(this._createdOnDayCount[0]), 9))}%|`;
@@ -199,7 +199,7 @@ class Stats {
     message += `${chalk.white(this._padString(this._calcPct(this._createdOnDayCount[5]), 9))}%|`;
     message += `${chalk.white(this._padString(this._calcPct(this._createdOnDayCount[6]), 9))}%| \n`;
 
-    message += `${this._getDivider()} \n`;
+    message += `${this._getDivider()}`;
 
     message += `|${chalk.cyan.bold(this._padString('Pct PRs merged', 20))}|`;
     message += `${chalk.white(this._padString(this._calcPct(this._mergedOnDayCount[0]), 9))}%|`;
