@@ -5,6 +5,8 @@ const dateparser = require('dateparser');
 const PullRequest = require('./PullRequest');
 const notFound = -1;
 
+/* eslint id-length: 'off', max-params: 'off', class-methods-use-this: 'off' */
+
 class Auditor {
 
   /**
@@ -41,7 +43,7 @@ class Auditor {
     return new Promise((resolve, reject) => {
       this.bitbucketApiClient.getRepos(project.key).then((repos) => {
         this._auditProjectRepos(project, repos).then((arrayOfPullRequestObjs) => {
-          console.log(chalk.green(chalk.bold(project.key) + ' project audit complete'));
+          console.log(chalk.green(`${chalk.bold(project.key)} project audit complete`));
           resolve(arrayOfPullRequestObjs);
         }).catch((error) => {
           reject(new Error(error));

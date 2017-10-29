@@ -3,6 +3,8 @@
 const chalk = require('chalk');
 const PermissionError = require('./PermissionError');
 
+/* eslint id-length: 'off', max-params: 'off', class-methods-use-this: 'off' */
+
 class Validator {
 
   /**
@@ -31,7 +33,7 @@ class Validator {
       projectPromises.push(this.processProjectRepos(project));
 
       Promise.all(projectPromises).then((arrayOfArrayOfPermissionErrors) => {
-        console.log(chalk.green(chalk.bold(project.key) + ' project audit complete'));
+        console.log(chalk.green(`${chalk.bold(project.key)}  project audit complete`));
 
         const arrayOfPermissionErrors = [].concat.apply([], arrayOfArrayOfPermissionErrors);
 

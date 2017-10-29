@@ -1,6 +1,7 @@
 'use strict';
 
 const chalk = require('chalk');
+const oneError = 1;
 
 /* eslint max-statements: 'off' */
 
@@ -18,11 +19,11 @@ class Reporter {
     const errorCount = errors.length;
 
     if (errorCount) {
-      for (let error of errors) {
+      for (const error of errors) {
         console.log(error.getMessage());
       }
 
-      console.log(`${chalk.red.bold(errorCount)} permission ${errorCount === 1 ? 'error' : 'errors'} found.`);
+      console.log(`${chalk.red.bold(errorCount)} permission ${errorCount === oneError ? 'error' : 'errors'} found.`);
     } else {
       console.log(chalk.green.bold('No permission errors found!'));
     }

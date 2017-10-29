@@ -21,7 +21,7 @@ class Config {
 
       return FileHelper.readJsonFile(filePath);
     } catch (e) {
-        throw new Error(`You are missing a ${configFileName} file.`);
+      throw new Error(`You are missing a ${configFileName} file.`);
     }
   }
 

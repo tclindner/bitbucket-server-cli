@@ -2,6 +2,8 @@
 
 const chalk = require('chalk');
 
+/* eslint max-params: 'off' */
+
 class PermissionError {
 
   /**
@@ -36,7 +38,7 @@ class PermissionError {
 
     message += `${chalk.white.bold('Project:')} ${chalk.white(this._project)} \n`;
 
-    if(this._isRepo) {
+    if (this._isRepo) {
       message += `${chalk.white.bold('Repo:')} ${chalk.white(this._repo)} \n`;
     }
 

@@ -1,9 +1,10 @@
 'use strict';
 
-const chalk = require('chalk');
 const Reporter = require('./Reporter');
 const Auditor = require('./Auditor');
 const Config = require('./Config');
+
+/* eslint id-length: 'off' */
 
 class StalePrs {
 
@@ -43,6 +44,7 @@ class StalePrs {
       });
     });
   }
+
 }
 
 module.exports = StalePrs;

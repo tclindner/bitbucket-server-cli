@@ -4,6 +4,8 @@ const Reporter = require('./Reporter');
 const Validator = require('./Validator');
 const Config = require('./Config');
 
+/* eslint id-length: 'off' */
+
 class PermissionsPlugin {
 
   /**
@@ -41,6 +43,7 @@ class PermissionsPlugin {
       });
     });
   }
+
 }
 
 module.exports = PermissionsPlugin;
