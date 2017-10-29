@@ -11,6 +11,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Removed
 
+## [0.3.0] - 2017-10-29
+- Add permissions plugin
+- Add stale pull request plugin
 
 ## [0.2.0] - 2017-10-15
 - Clean up ESLint issues

@@ -12,7 +12,7 @@ class Auditor {
   /**
    * Creates an instance of Auditor.
    * @param {Object} bitbucketApiClient BitbucketApiClient object
-   * @param {Object} definitionOfStale
+   * @param {Object} definitionOfStale Definition of stale configuration object
    * @memberof Auditor
    */
   constructor(bitbucketApiClient, definitionOfStale) {
@@ -117,7 +117,7 @@ class Auditor {
    *
    * @param {Object} project Bitbucket project
    * @param {Object} repo Bitbucket repo
-   * @param {Object} pullRequest Pull request
+   * @param {Array} pullRequests Array of pull request objects
    * @returns {Array} An array of pull request objects
    * @memberof Auditor
    */
@@ -128,7 +128,7 @@ class Auditor {
     const stalePrs = [];
 
     for (const pullRequest of pullRequests) {
-      const age = (this._getTodaysDate() - pullRequest.updatedDate);
+      const age = this._getTodaysDate() - pullRequest.updatedDate;
 
       if (age > allowedAgeInMillisecs) {
         const stalePr = new PullRequest(project.key, repoName, pullRequest);
@@ -143,7 +143,7 @@ class Auditor {
   /**
    * Get the current timestamp
    *
-   * @returns
+   * @returns {Number} Timestamp
    * @memberof Auditor
    */
   _getTodaysDate() {
