@@ -65,9 +65,10 @@ cliApp
     const PermissionsPlugin = require('./plugins/permissions/PermissionsPlugin');
     const permissionsPlugin = new PermissionsPlugin(bitbucketApiClient);
 
-    permissionsPlugin.execute().then(function() {
+    permissionsPlugin.execute().then((result) => {
+      console.log(chalk.bold.green(result));
       console.log(completeMessage);
-    }).catch(function(error) {
+    }).catch((error) => {
       handleError(error);
     });
   });
@@ -84,9 +85,10 @@ cliApp
     const StalePrs = require('./plugins/stale-prs/StalePrsPlugin');
     const stalePrsPlugin = new StalePrs(bitbucketApiClient);
 
-    stalePrsPlugin.execute().then(function() {
+    stalePrsPlugin.execute().then((result) => {
+      console.log(chalk.bold.green(result));
       console.log(completeMessage);
-    }).catch(function(error) {
+    }).catch((error) => {
       handleError(error);
     });
   });
@@ -103,10 +105,10 @@ cliApp
     const PullRequestStatsPlugin = require('./plugins/stats/PullRequestStatsPlugin');
     const pullRequestStatsPlugin = new PullRequestStatsPlugin(bitbucketApiClient);
 
-    pullRequestStatsPlugin.execute().then(function(result) {
+    pullRequestStatsPlugin.execute().then((result) => {
       console.log(chalk.bold.green(result));
       console.log(completeMessage);
-    }).catch(function(error) {
+    }).catch((error) => {
       handleError(error);
     });
   });
