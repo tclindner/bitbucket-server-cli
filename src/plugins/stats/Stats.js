@@ -86,7 +86,7 @@ class Stats {
    * @memberof Stats
    */
   _calcPct(sum) {
-    return (sum / this._count) * 100;
+    return Math.round((sum / this._count) * 100);
   }
 
   /**
