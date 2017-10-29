@@ -13,7 +13,7 @@ class StalePrs {
    * @memberof StalePrs
    */
   constructor(bitbucketApiClient) {
-    this.stalePrsConfig = Config.getConfig();
+    this.stalePrConfig = Config.getConfig();
     this.bitbucketApiClient = bitbucketApiClient;
   }
 
@@ -26,10 +26,10 @@ class StalePrs {
   execute() {
     return new Promise((resolve, reject) => {
       const promises = [];
-      const auditor = new Auditor(this.bitbucketApiClient, this.stalePrsConfig.definitionOfStale);
+      const auditor = new Auditor(this.bitbucketApiClient, this.stalePrConfig.definitionOfStale);
 
-      for (const project in this.stalePrsConfig.projects) {
-        promises.push(auditor.auditProject(this.stalePrsConfig.projects[project]));
+      for (const project in this.stalePrConfig.projects) {
+        promises.push(auditor.auditProject(this.stalePrConfig.projects[project]));
       }
 
       Promise.all(promises).then((arrayOfArrayOfPullRequestObjects) => {

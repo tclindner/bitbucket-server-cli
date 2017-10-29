@@ -17,7 +17,7 @@ class PullRequest {
     this._repo = repo;
     this._id = pullRequest.id;
     this._title = pullRequest.title;
-    this._author = pullRequest.author.name.displayName;
+    this._author = pullRequest.author.user.displayName;
     this._createdDate = moment(pullRequest.createdDate).format('YYYY-MM-DD');
     this._age = moment(pullRequest.updatedDate).fromNow();
     this._fromBranchName = pullRequest.fromRef.displayId;
@@ -40,7 +40,7 @@ class PullRequest {
     message += `${chalk.cyan.bold('ID:')} ${chalk.cyan(this._id)} \n`;
     message += `${chalk.cyan.bold('Title:')} ${chalk.cyan(this._title)} \n`;
     message += `${chalk.cyan.bold('Author:')} ${chalk.cyan(this._author)} \n`;
-    message += `${chalk.cyan(this._fromBranchName)} ${chalk.cyan.bold(' --> ')} ${chalk.cyan(this._toBranchName)} \n`;
+    message += `${chalk.cyan.bold('Merge request:')} ${chalk.cyan(this._fromBranchName)} ${chalk.cyan.bold('-->')} ${chalk.cyan(this._toBranchName)} \n`;
     message += `${chalk.cyan.bold('Last Updated: ')} ${chalk.cyan(this._age)} \n`;
     message += `${chalk.cyan.bold('Created On: ')} ${chalk.cyan(this._createdDate)} \n`;
 

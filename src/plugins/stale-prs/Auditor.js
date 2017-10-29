@@ -102,7 +102,7 @@ class Auditor {
    */
   _getPullRequests(project, repo) {
     return new Promise((resolve, reject) => {
-      this.bitbucketApiClient._getPullRequests(repo.project.key, repo.slug).then((pullRequests) => {
+      this.bitbucketApiClient.getPullRequests(repo.project.key, repo.slug).then((pullRequests) => {
         resolve(this._auditPullRequest(project, repo, pullRequests));
       }).catch((error) => {
         reject(new Error(error));

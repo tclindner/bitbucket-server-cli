@@ -82,7 +82,7 @@ cliApp
     validRequiredParams(cliApp.baseUrl, cliApp.username, cliApp.password);
     const bitbucketApiClient = new BitbucketApiClient(cliApp.baseUrl, cliApp.username, cliApp.password);
 
-    const StalePrs = require('./plugins/stale-prs/StalePrsPlugin');
+    const StalePrs = require('./plugins/stale-prs/StalePrPlugin');
     const stalePrsPlugin = new StalePrs(bitbucketApiClient);
 
     stalePrsPlugin.execute().then((result) => {

@@ -1,5 +1,6 @@
 'use strict';
 
+const chalk = require('chalk');
 const PermissionError = require('./PermissionError');
 
 class Validator {

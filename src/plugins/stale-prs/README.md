@@ -6,7 +6,7 @@
 
 ## Configuration
 
-Create a `stalePrsConfig.json` file and place it in the `bitbucket-server-cli` configuration directory
+Create a `stalePrConfig.json` file and place it in the `bitbucket-server-cli` configuration directory
 
 List each project you would like to scan. Multiple definitions of stale are supported. The root `definitionOfStale` is global and will apply to all projects unless they contain a project level override. It is also possible to exclude an array of repos for a given project from the scan.
 

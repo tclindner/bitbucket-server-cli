@@ -4,7 +4,7 @@ const FileHelper = require('./../../FileHelper');
 const path = require('path');
 const userHome = require('user-home');
 const configFileDirectoryName = 'bitbucket-server-cli';
-const configFileName = 'stalePrsConfig.json';
+const configFileName = 'stalePrConfig.json';
 
 class Config {
 
