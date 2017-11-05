@@ -1,6 +1,6 @@
 'use strict';
 
-/* eslint id-length: 'off', class-methods-use-this: 'off', no-magic-numbers: 'off', no-param-reassign: 'off', no-negated-condition: 'off' */
+/* eslint id-length: 'off', class-methods-use-this: 'off', no-magic-numbers: 'off', no-param-reassign: 'off', no-negated-condition: 'off', max-statements: 'off' */
 const request = require('request');
 const OK = 200;
 
@@ -50,7 +50,20 @@ class RequestHelper {
             });
           }
         } else {
-          reject(new Error(error));
+          const errorJson = JSON.parse(body);
+          const errorObjs = errorJson.errors;
+          const errorLines = [];
+
+          errorLines.push(`\nStatus Code: ${response.statusCode}`);
+          errorLines.push(`Request URL: ${requestUrl}`);
+
+          for (const errorObj of errorObjs) {
+            errorLines.push(`Context: ${errorObj.context}`);
+            errorLines.push(`Message: ${errorObj.message}`);
+            errorLines.push(`Exception Name: ${errorObj.exceptionName}`);
+          }
+
+          reject(new Error(errorLines.join('\n')));
         }
       });
     });
