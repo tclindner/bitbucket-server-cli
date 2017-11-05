@@ -11,14 +11,21 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Removed
 
+## [0.4.0] - 2017-11-05
+### Added
+- Add the ability to specific repo permission setting per repo instead of for all repos.
+
 ## [0.3.2] - 2017-11-05
+### Changed
 - Improve error handling for Bitbucket API calls. The cli now outputs the error message returned from Bitbucket.
 
 ## [0.3.1] - 2017-10-29
+### Fixed
 - Remove extra line breaks in stats table - [#18](https://github.com/tclindner/bitbucket-server-cli/issues/18)
 - Properly round percentages in stats output - [#17](https://github.com/tclindner/bitbucket-server-cli/issues/17)
 
 ## [0.3.0] - 2017-10-29
+### Added
 - Add permissions plugin
 - Add stale pull request plugin
 

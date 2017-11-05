@@ -162,7 +162,11 @@ class Validator {
   validateRepoGroupPermissions(project, repo) {
     return new Promise((resolve, reject) => {
       this.bitbucketApiClient.getRepoGroupPermissions(repo.project.key, repo.slug).then((groups) => {
-        resolve(this.auditPermissions(project, repo, groups, 'Group', project.repoPermissions.groups));
+        if (project.repoPermissions.hasOwnProperty(repo.slug)) {
+          resolve(this.auditPermissions(project, repo, groups, 'Group', project.repoPermissions[repo.slug].groups));
+        } else {
+          resolve([]);
+        }
       }).catch(function(error) {
         reject(error);
       });
@@ -180,7 +184,11 @@ class Validator {
   validateRepoUserPermissions(project, repo) {
     return new Promise((resolve, reject) => {
       this.bitbucketApiClient.getRepoUserPermissions(repo.project.key, repo.slug).then((users) => {
-        resolve(this.auditPermissions(project, repo, users, 'Users', project.repoPermissions.users));
+        if (project.repoPermissions.hasOwnProperty(repo.slug)) {
+          resolve(this.auditPermissions(project, repo, users, 'Users', project.repoPermissions[repo.slug].users));
+        } else {
+          resolve([]);
+        }
       }).catch(function(error) {
         reject(error);
       });
@@ -194,7 +202,7 @@ class Validator {
    * @param {Object} repo Bitbucket repo object
    * @param {Array} array An array of users or groups
    * @param {String} entityType Entity type of the array
-   * @param {Array} validPermissions An array of valid permissions
+   * @param {Object} validPermissions An object of valid permissions
    * @returns {Array} An array of PermissionError objects
    * @memberof Validator
    */
