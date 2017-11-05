@@ -23,11 +23,13 @@ List the valid group and user permissions for each project you want to audit.
       }
     },
     "repoPermissions": {
-      "groups": {
-        "AD_GROUP_KEY": "BITBUCKET_PERMISSION_NAME"
-      },
-      "users": {
-        "USER_ID": "BITBUCKET_PERMISSION_NAME"
+      "BITBUCKET_REPO_KEY": {
+        "groups": {
+          "AD_GROUP_KEY": "BITBUCKET_PERMISSION_NAME"
+        },
+        "users": {
+          "USER_ID": "BITBUCKET_PERMISSION_NAME"
+        }
       }
     },
     "branchPermissions": {
@@ -66,11 +68,13 @@ Example:
       }
     },
     "repoPermissions": {
-      "groups": {
-        "all-front-end-devs": "REPO_ADMIN"
-      },
-      "users": {
-        "frontEndDev": "REPO_ADMIN"
+      "FRONTENDREPO": {
+        "groups": {
+          "all-front-end-devs": "REPO_ADMIN"
+        },
+        "users": {
+          "frontEndDev": "REPO_ADMIN"
+        }
       }
     },
     "branchPermissions": {
