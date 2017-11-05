@@ -16,7 +16,6 @@ const handleError = function(err) {
 
   console.log(chalk.red.bold(err));
   process.exitCode = exitCode;
-  throw new Error(err);
 };
 
 /**
