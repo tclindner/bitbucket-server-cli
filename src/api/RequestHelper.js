@@ -1,6 +1,6 @@
 'use strict';
 
-/* eslint id-length: 'off', class-methods-use-this: 'off', no-magic-numbers: 'off', no-param-reassign: 'off', no-negated-condition: 'off' */
+/* eslint id-length: 'off', class-methods-use-this: 'off', no-magic-numbers: 'off', no-param-reassign: 'off', no-negated-condition: 'off', max-statements: 'off' */
 const request = require('request');
 const OK = 200;
 
@@ -51,16 +51,16 @@ class RequestHelper {
           }
         } else {
           const errorJson = JSON.parse(body);
-          const errors = errorJson.errors;
+          const errorObjs = errorJson.errors;
           const errorLines = [];
 
           errorLines.push(`\nStatus Code: ${response.statusCode}`);
           errorLines.push(`Request URL: ${requestUrl}`);
 
-          for (const error of errors) {
-            errorLines.push(`Context: ${error.context}`);
-            errorLines.push(`Message: ${error.message}`);
-            errorLines.push(`Exception Name: ${error.exceptionName}`);
+          for (const errorObj of errorObjs) {
+            errorLines.push(`Context: ${errorObj.context}`);
+            errorLines.push(`Message: ${errorObj.message}`);
+            errorLines.push(`Exception Name: ${errorObj.exceptionName}`);
           }
 
           reject(new Error(errorLines.join('\n')));
