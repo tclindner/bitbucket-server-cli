@@ -50,7 +50,20 @@ class RequestHelper {
             });
           }
         } else {
-          reject(new Error(error));
+          const errorJson = JSON.parse(body);
+          const errors = errorJson.errors;
+          const errorLines = [];
+
+          errorLines.push(`\nStatus Code: ${response.statusCode}`);
+          errorLines.push(`Request URL: ${requestUrl}`);
+
+          for (const error of errors) {
+            errorLines.push(`Context: ${error.context}`);
+            errorLines.push(`Message: ${error.message}`);
+            errorLines.push(`Exception Name: ${error.exceptionName}`);
+          }
+
+          reject(new Error(errorLines.join('\n')));
         }
       });
     });
