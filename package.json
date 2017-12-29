@@ -30,7 +30,7 @@
     "eslint": "eslint . --format=node_modules/eslint-formatter-pretty",
     "lint": "npm run npmpackagejsonlint && npm run eslint",
     "npmpackagejsonlint": "pjl-cli -c ./.npmpackagejsonlintrc.json",
-    "test": "mocha tests/unit --recursive",
+    "test": "mocha test/unit --recursive",
     "coverage": "nyc --extension .js --check-coverage --lines 1 --branches 1 --functions 1 npm test"
   },
   "devDependencies": {
