@@ -5,7 +5,7 @@ const UrlBuilder = require('./../../../src/api/UrlBuilder');
 const should = chai.should();
 
 describe('UrlBuilder Unit Tests', function() {
-  const urlBuilder = UrlBuilder('https://www.example.com');
+  const urlBuilder = new UrlBuilder('https://www.example.com');
 
   it('getProjectsUrl', function() {
     urlBuilder.getProjectsUrl().should.equal('https://www.example.com/rest/api/1.0/projects');
