@@ -22,7 +22,7 @@ describe('FileHelper Unit Tests', function() {
     const filePath = './config.json';
     const result = FileHelper.readJsonFile(filePath);
     const expected = {
-      'key': 'value'
+      key: 'value'
     };
 
     result.should.deep.equal(expected);

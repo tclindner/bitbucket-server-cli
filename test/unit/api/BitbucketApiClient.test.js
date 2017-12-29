@@ -115,7 +115,7 @@ describe('BitbucketApiClient Unit Tests', function() {
       const stub = sinon.stub(RequestHelper, 'walker');
       const url = 'https://www.example.com/rest/api/1.0/projects/ABC/repos/DEF/pull-requests';
 
-      const options = {
+      const optionsObj = {
         auth: {
           auth: {
             user: 'username',
@@ -126,7 +126,7 @@ describe('BitbucketApiClient Unit Tests', function() {
       };
 
       stub.onFirstCall().returns(true);
-      stub.calledWithExactly(url, options);
+      stub.calledWithExactly(url, optionsObj);
 
       bitbucket.getPullRequests('ABC', 'DEF').should.be.true;
 
@@ -138,7 +138,7 @@ describe('BitbucketApiClient Unit Tests', function() {
       const stub = sinon.stub(RequestHelper, 'walker');
       const url = 'https://www.example.com/rest/api/1.0/projects/ABC/repos/DEF/pull-requests';
 
-      const options = {
+      const optionsObj = {
         auth: {
           auth: {
             user: 'username',
@@ -149,7 +149,7 @@ describe('BitbucketApiClient Unit Tests', function() {
       };
 
       stub.onFirstCall().returns(true);
-      stub.calledWithExactly(url, options);
+      stub.calledWithExactly(url, optionsObj);
 
       bitbucket.getPullRequests('ABC', 'DEF', 'MERGED').should.be.true;
 
