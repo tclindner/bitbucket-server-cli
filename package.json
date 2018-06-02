@@ -52,6 +52,7 @@
     "moment": "^2.22.2",
     "pretty-ms": "^3.2.0",
     "request": "^2.87.0",
+    "round-to": "^3.0.0",
     "user-home": "^2.0.0"
   },
   "engines": {
