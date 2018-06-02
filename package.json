@@ -50,6 +50,7 @@
     "commander": "^2.11.0",
     "dateparser": "^1.0.6",
     "moment": "^2.22.2",
+    "plur": "^3.0.1",
     "pretty-ms": "^3.2.0",
     "request": "^2.87.0",
     "round-to": "^3.0.0",
