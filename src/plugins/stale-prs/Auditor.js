@@ -3,7 +3,6 @@
 const chalk = require('chalk');
 const dateparser = require('dateparser');
 const PullRequest = require('./PullRequest');
-const notFound = -1;
 
 /* eslint id-length: 'off', max-params: 'off', class-methods-use-this: 'off' */
 
@@ -23,7 +22,7 @@ class Auditor {
   /**
    * Audit a project
    *
-   * @param {Object} project Project configuration from config file.
+   * @param {string} project Bitbucket project key.
    * @returns {Promise} A promise that will resolve to the value of the API call
    * @memberof Auditor
    */
@@ -34,16 +33,16 @@ class Auditor {
   /**
    * Process project repos
    *
-   * @param {Object} project Project configuration from config file.
+   * @param {string} project Bitbucket project key.
    * @returns {Promise} A promise that will resolve to the value of the API call
    * @memberof Auditor
    */
   _processProjectRepos(project) {
     // Fetch Repo Info Below
     return new Promise((resolve, reject) => {
-      this.bitbucketApiClient.getRepos(project.key).then((repos) => {
+      this.bitbucketApiClient.getRepos(project).then((repos) => {
         this._auditProjectRepos(project, repos).then((arrayOfPullRequestObjs) => {
-          console.log(chalk.green(`${chalk.bold(project.key)} project audit complete`));
+          console.log(chalk.green(`${chalk.bold(project)} project audit complete`));
           resolve(arrayOfPullRequestObjs);
         }).catch((error) => {
           reject(new Error(error));
@@ -57,7 +56,7 @@ class Auditor {
   /**
    * Audit project repos
    *
-   * @param {Object} project Project configuration from config file.
+   * @param {string} project Bitbucket project key.
    * @param {Array} repos Array of repos
    * @returns {Promise} A promise that will resolve to the value of the API call
    * @memberof Auditor
@@ -67,9 +66,7 @@ class Auditor {
       const repoPromises = [];
 
       repos.forEach((repo) => {
-        if (project.excludedRepos.indexOf(repo.slug) === notFound) {
-          repoPromises.push(this._auditRepo(project, repo));
-        }
+        repoPromises.push(this._auditRepo(project, repo));
       });
 
       Promise.all(repoPromises).then((arrayOfArrayOfPullRequestObjs) => {
@@ -85,7 +82,7 @@ class Auditor {
   /**
    * Audit a repo
    *
-   * @param {Object} project Project configuration from config file.
+   * @param {string} project Bitbucket project key.
    * @param {Object} repo Bitbucket repo
    * @returns {Promise} A promise that will resolve to the value of the API call
    * @memberof Auditor
@@ -97,7 +94,7 @@ class Auditor {
   /**
    * Get pull requests for a repo
    *
-   * @param {Object} project Bitbucket project
+   * @param {string} project Bitbucket project key.
    * @param {Object} repo Bitbucket repo
    * @returns {Promise} A promise that will resolve to the value of the API call
    * @memberof Auditor
@@ -115,7 +112,7 @@ class Auditor {
   /**
    * Audits a pull request
    *
-   * @param {Object} project Bitbucket project
+   * @param {string} project Bitbucket project key.
    * @param {Object} repo Bitbucket repo
    * @param {Array} pullRequests Array of pull request objects
    * @returns {Array} An array of pull request objects
@@ -123,15 +120,14 @@ class Auditor {
    */
   _auditPullRequest(project, repo, pullRequests) {
     const repoName = repo.hasOwnProperty('slug') ? repo.slug : '';
-    const definitionOfStale = project.hasOwnProperty('definitionOfStale') ? project.definitionOfStale : this.definitionOfStale;
-    const allowedAgeInMillisecs = dateparser.parse(definitionOfStale).value;
+    const allowedAgeInMillisecs = dateparser.parse(this.definitionOfStale).value;
     const stalePrs = [];
 
     for (const pullRequest of pullRequests) {
       const age = this._getTodaysDate() - pullRequest.updatedDate;
 
       if (age > allowedAgeInMillisecs) {
-        const stalePr = new PullRequest(project.key, repoName, pullRequest);
+        const stalePr = new PullRequest(project, repoName, pullRequest);
 
         stalePrs.push(stalePr);
       }
