@@ -85,13 +85,16 @@ cliApp
   .command('stale-prs')
   .alias('sp')
   .description('Fetch a list of Stale PRs')
-  .option('-c, --config <configFile>', 'Path to config file')
-  .action(function() {
-    validRequiredParams(cliApp.baseUrl, cliApp.username, cliApp.password);
-    const bitbucketApiClient = new BitbucketApiClient(cliApp.baseUrl, cliApp.username, cliApp.password);
+  .option('-s, --definitionOfStale <definitionOfStale>', 'Definition of stale')
+  .action(function(options) {
+    const bitbucketApiClient = new BitbucketApiClient(baseUrl, username, password);
 
     const StalePrs = require('./plugins/stale-prs/StalePrPlugin');
-    const stalePrsPlugin = new StalePrs(bitbucketApiClient);
+    const pluginOptions = {
+      definitionOfStale: options.definitionOfStale,
+      projects: cliApp.projects.split(',')
+    };
+    const stalePrsPlugin = new StalePrs(bitbucketApiClient, pluginOptions);
 
     stalePrsPlugin.execute().then((result) => {
       console.log(chalk.bold.green(result));
