@@ -17,7 +17,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Bitbucket configuration via environment variables.
 
 ### Changed
-- BREAKING CHANGES to the cli. Please the the [README](README.md) for more information.
+- BREAKING CHANGES to the cli. Please the [README](README.md) for more information.
 
 ### Removed
 - Ability to exclude repos

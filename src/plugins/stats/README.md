@@ -12,9 +12,9 @@
 
 | Option | Alias | Description |
 |---|---|---|
-| --startDate | -s | Definition of stale |
-| --endDate | -s | Definition of stale |
-| --range | -s | Definition of stale |
+| --startDate | -s | Start date to check for stats |
+| --endDate | -s | End date to check for stats |
+| --range | -s | Relative time range to check for stats. Range is relative to today. |
 
 You must provide `startDate` and `endDate` OR `range`. If all three are set the fixed date range will be used over the range.
 
