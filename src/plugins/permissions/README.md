@@ -4,37 +4,32 @@
 
 > NOTE: You will need ADMIN permissions to each project/repo you are auditing.
 
-## Configuration
+## Commands and configuration
 
-Create a `permissionsConfig.json` file and place it in the `bitbucket-server-cli` configuration directory
+> NOTE: Please ensure that you've configured the required environment variables.
+
+### Configuration
+
+Create a `permissionsConfig.json` file.
 
 List the valid group and user permissions for each project you want to audit.
 
-```
+```json
 {
-  "YOUR_KEY_CAN_BE_ANYTHING": {
-    "key": "BITBUCKET_PROJECT_KEY",
-    "projectPermissions": {
-      "groups": {
-        "AD_GROUP_KEY": "BITBUCKET_PERMISSION_NAME"
-      },
-      "users": {
-        "USER_ID": "BITBUCKET_PERMISSION_NAME"
-      }
+  "projectPermissions": {
+    "groups": {
+      "AD_GROUP_KEY": "BITBUCKET_PERMISSION_NAME"
     },
-    "repoPermissions": {
-      "BITBUCKET_REPO_KEY": {
-        "groups": {
-          "AD_GROUP_KEY": "BITBUCKET_PERMISSION_NAME"
-        },
-        "users": {
-          "USER_ID": "BITBUCKET_PERMISSION_NAME"
-        }
-      }
+    "users": {
+      "USER_ID": "BITBUCKET_PERMISSION_NAME"
+    }
+  },
+  "repoPermissions": {
+    "groups": {
+      "AD_GROUP_KEY": "BITBUCKET_PERMISSION_NAME"
     },
-    "branchPermissions": {
-      "groups": {},
-      "users": {}
+    "users": {
+      "USER_ID": "BITBUCKET_PERMISSION_NAME"
     }
   }
 }
@@ -55,33 +50,49 @@ Valid list of Bitbucket Repo Permissions
 
 Example:
 
-```
+```json
 {
-  "frontend": {
-    "key": "FRONTEND",
-    "projectPermissions": {
-      "groups": {
-        "all-front-end-devs": "PROJECT_ADMIN"
-      },
-      "users": {
-        "frontEndDev": "PROJECT_ADMIN"
-      }
+  "projectPermissions": {
+    "groups": {
+      "all-front-end-devs": "PROJECT_ADMIN"
     },
-    "repoPermissions": {
-      "FRONTENDREPO": {
-        "groups": {
-          "all-front-end-devs": "REPO_ADMIN"
-        },
-        "users": {
-          "frontEndDev": "REPO_ADMIN"
-        }
-      }
+    "users": {
+      "frontEndDev": "PROJECT_ADMIN"
+    }
+  },
+  "repoPermissions": {
+    "groups": {
+      "all-front-end-devs": "REPO_ADMIN"
     },
-    "branchPermissions": {
-      "groups": {},
-      "users": {}
+    "users": {
+      "frontEndDev": "REPO_ADMIN"
     }
   }
 }
 
 ```
+
+### Global Options
+
+| Option | Alias | Description |
+|---|---|---|
+| --configFile | -c | Path to config file relative to the current working directory. |
+
+### Command
+
+Full command, `audit-permissions`
+Alias, `ap`
+
+## Examples
+
+`bitbucket-server-cli -p "MYPROJECTKEY,MYPROJECTKEY2" -c "./permissionsConfig.json" audit-permissions`
+
+> Checks `MYPROJECTKEY` and `MYPROJECTKEY2` for permissions issues based on the settings in `./permissionsConfig.json`.
+
+`bitbucket-server-cli -p "MYPROJECTKEY" -c "./permissionsConfig.json" audit-permissions`
+
+> Checks `MYPROJECTKEY` for permissions issues based on the settings in `./permissionsConfig.json`.
+
+`bitbucket-server-cli -p "MYPROJECTKEY" -c "./permissionsConfig.json" ap`
+
+> Checks `MYPROJECTKEY` for permissions issues based on the settings in `./permissionsConfig.json`.

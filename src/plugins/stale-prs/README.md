@@ -4,64 +4,34 @@
 
 > NOTE: You will need ADMIN permissions to each project/repo you are auditing.
 
-## Configuration
+## Commands and configuration
 
-Create a `stalePrConfig.json` file and place it in the `bitbucket-server-cli` configuration directory
+> NOTE: Please ensure that you've configured the required environment variables.
 
-List each project you would like to scan. Multiple definitions of stale are supported. The root `definitionOfStale` is global and will apply to all projects unless they contain a project level override. It is also possible to exclude an array of repos for a given project from the scan.
+### Global Options
 
-```
-{
-  "definitionOfStale": "RELATIVE_TIME_DEFINITION_OF_STALE",
-  "projects": {
-    "YOUR_KEY_CAN_BE_ANYTHING": {
-      "key": "BITBUCKET_PROJECT_KEY",
-      "excludedRepos": [
-        "BITBUCKET_REPO_SLUG"
-      ],
-      "definitionOfStale": "RELATIVE_TIME_DEFINITION_OF_STALE"
-    },
-    "YOUR_KEY_CAN_BE_ANYTHING": {
-      "key": "BITBUCKET_PROJECT_KEY",
-      "excludedRepos": [
-        "BITBUCKET_REPO_SLUG"
-      ],
-      "definitionOfStale": "RELATIVE_TIME_DEFINITION_OF_STALE"
-    }
-  }
-}
+| Option | Alias | Description |
+|---|---|---|
+| --definitionOfStale | -s | Definition of stale |
 
-```
+### Command
 
-Examples for definition of stale
+Full command, `stale-prs`
+Alias, `sp`
+
+## Examples
+
+`bitbucket-server-cli -p "MYPROJECTKEY,MYPROJECTKEY2" -s "30 days" stale-prs`
+
+> Check `MYPROJECTKEY` and `MYPROJECTKEY2` for open pull requests that were opened more than `30 days` ago.
+
+`bitbucket-server-cli -p "MYPROJECTKEY" -s "1 hour" sp`
+
+> Check `MYPROJECTKEY` for open pull requests that were opened more than `1 hour` ago.
+
+### Examples for definition of stale
 
 1. 1 hour
 2. 4 hours
 3. 1 day
 3. 4 days
-
-Example:
-
-Bitbucket Project Key: FRONTENDREPOS
-
-```
-{
-  "definitionOfStale": "1 day",
-  "projects": {
-    "frontend": {
-      "key": "FRONTENDREPOS",
-      "excludedRepos": [
-        "front-end-automation"
-      ],
-      "definitionOfStale": "2 hours"
-    },
-    "backend": {
-      "key": "BACKENDREPOS",
-      "excludedRepos": [
-        "back-end-automation"
-      ],
-      "definitionOfStale": "2 hours"
-    }
-  }
-}
-```

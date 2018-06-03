@@ -32,10 +32,13 @@ First thing first, let's make sure you have the necessary pre-requisites.
 
 * `npm install bitbucket-server-cli -g`
 
-### Create a configuration directory
+### Set environment variables
 
-* The directory must be named `bitbucket-server-cli`.
-* Place the config directory in your home directory (Ex: `C:\Users\MYUSERID` or `/Users/MYUSERID`)
+Set the following environment variables:
+
+* BITBUCKET_BASE_URL, ex: `https://bitbucketserver.myserver.com`
+* BITBUCKET_USERNAME, ex: `username`
+* BITBUCKET_PASSWORD, ex: `password`
 
 ## Commands and configuration
 
@@ -47,9 +50,7 @@ First thing first, let's make sure you have the necessary pre-requisites.
 |---|---|---|
 | bitbucket-server-cli --help | bitbucket-server-cli -h | Lists supported CLI options |
 | bitbucket-server-cli --version | bitbucket-server-cli -v | Lists the current version number |
-| bitbucket-server-cli --baseUrl | bitbucket-server-cli -b | Bitbucket Server Base URL |
-| bitbucket-server-cli --username | bitbucket-server-cli -u | Bitbucket Server Username |
-| bitbucket-server-cli --password | bitbucket-server-cli -p | Bitbucket Server Password |
+| bitbucket-server-cli --projects | bitbucket-server-cli -p | Comma separated list of Bitbucket project keys |
 
 ### Commands
 
@@ -62,9 +63,11 @@ First thing first, let's make sure you have the necessary pre-requisites.
 [Permissions README](src/plugins/permissions/README.md)
 
 Examples
-`bitbucket-server-cli -b "https://bitbucketserver.myserver.com" -u "username" -p "password" audit-permissions`
+`bitbucket-server-cli -p "MYPROJECTKEY,MYPROJECTKEY2" -c "./permissionsConfig.json" audit-permissions`
 
-`bitbucket-server-cli -b "https://bitbucketserver.myserver.com" -u "username" -p "password" ap`
+`bitbucket-server-cli -p "MYPROJECTKEY,MYPROJECTKEY2" -c "./permissionsConfig.json" ap`
+
+Please see the [Permissions README](src/plugins/permissions/README.md) for additional examples.
 
 #### bitbucket-server-cli stale-prs
 
@@ -75,9 +78,11 @@ Examples
 [Stale PRs README](src/plugins/stale-prs/README.md)
 
 Examples
-`bitbucket-server-cli -b "https://bitbucketserver.myserver.com" -u "username" -p "password" stale-prs`
+`bitbucket-server-cli -p "MYPROJECTKEY,MYPROJECTKEY2" -s "30 days" stale-prs`
 
-`bitbucket-server-cli -b "https://bitbucketserver.myserver.com" -u "username" -p "password" sp`
+`bitbucket-server-cli -p "MYPROJECTKEY,MYPROJECTKEY2" -s "30 days" sp`
+
+Please see the [Stale PRs README](src/plugins/stale-prs/README.md) for additional examples.
 
 #### bitbucket-server-cli pr-stats
 
@@ -88,10 +93,11 @@ Examples
 [Pull Request Stats README](src/plugins/stats/README.md)
 
 Examples
-`bitbucket-server-cli -b "https://bitbucketserver.myserver.com" -u "username" -p "password" pr-stats`
+`bitbucket-server-cli -p "MYPROJECTKEY,MYPROJECTKEY2" -r "30 days" pr-stats`
 
-`bitbucket-server-cli -b "https://bitbucketserver.myserver.com" -u "username" -p "password" s`
+`bitbucket-server-cli -p "MYPROJECTKEY,MYPROJECTKEY2" -r "30 days" s`
 
+Please see the [Pull Request Stats README](src/plugins/stats/README.md) for additional examples.
 
 ## Contributing
 
