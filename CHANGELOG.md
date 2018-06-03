@@ -11,9 +11,17 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Removed
 
-## [0.4.0] - 2017-11-05
+## [0.4.0] - 2018-06-03
 ### Added
-- Add the ability to specific repo permission setting per repo instead of for all repos.
+- Support for triggering permission errors if required permissions are missing from project/repo config.
+- Bitbucket configuration via environment variables.
+
+### Changed
+- BREAKING CHANGES to the cli. Please the [README](README.md) for more information.
+
+### Removed
+- Ability to exclude repos
+- Config files for stale pr and stats plugins
 
 ## [0.3.2] - 2017-11-05
 ### Changed
