@@ -19,13 +19,14 @@
     "type": "git",
     "url": "https://github.com/tclindner/bitbucket-server-cli.git"
   },
+  "bin": {
+    "bitbucket-server-cli": "src/cli.js"
+  },
   "files": [
     "src",
     "CONTRIBUTING.md"
   ],
-  "bin": {
-    "bitbucket-server-cli": "src/cli.js"
-  },
+  "main": "src/api.js",
   "scripts": {
     "eslint": "eslint . --format=node_modules/eslint-formatter-pretty",
     "lint": "npm run npmpackagejsonlint && npm run eslint",
@@ -49,12 +50,13 @@
     "chalk": "^2.4.1",
     "commander": "^2.11.0",
     "dateparser": "^1.0.6",
+    "dotenv": "^6.0.0",
+    "load-json-file": "^5.0.0",
     "moment": "^2.22.2",
     "plur": "^3.0.1",
     "pretty-ms": "^3.2.0",
     "request": "^2.87.0",
-    "round-to": "^3.0.0",
-    "user-home": "^2.0.0"
+    "round-to": "^3.0.0"
   },
   "engines": {
     "node": ">=6.0.0",
