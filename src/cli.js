@@ -64,13 +64,14 @@ cliApp
   .command('audit-permissions')
   .alias('ap')
   .description('Audit permissions')
-  .option('-c, --config <configFile>', 'Path to config file')
-  .action(function() {
-    validRequiredParams(cliApp.baseUrl, cliApp.username, cliApp.password);
-    const bitbucketApiClient = new BitbucketApiClient(cliApp.baseUrl, cliApp.username, cliApp.password);
+  .option('-c, --configFile <configFile>', 'Path to config file')
+  .action(function(options) {
+    const bitbucketApiClient = new BitbucketApiClient(baseUrl, username, password);
+    const pluginOptions = loadJsonFile.sync(path.join(process.cwd(), options.configFile));
 
+    pluginOptions.projects = cliApp.projects.split(',');
     const PermissionsPlugin = require('./plugins/permissions/PermissionsPlugin');
-    const permissionsPlugin = new PermissionsPlugin(bitbucketApiClient);
+    const permissionsPlugin = new PermissionsPlugin(bitbucketApiClient, pluginOptions);
 
     permissionsPlugin.execute().then((result) => {
       console.log(chalk.bold.green(result));

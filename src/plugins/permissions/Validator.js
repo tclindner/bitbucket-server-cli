@@ -11,16 +11,18 @@ class Validator {
    * Creates an instance of Validator.
    *
    * @param {Object} bitbucketApiClient BitbucketApiClient object
+   * @param {object} options StalePrsPlugin options
    * @memberof Validator
    */
-  constructor(bitbucketApiClient) {
+  constructor(bitbucketApiClient, options) {
     this.bitbucketApiClient = bitbucketApiClient;
+    this.options = options;
   }
 
   /**
    * Validate a project
    *
-   * @param {Object} project Project configuration from config file.
+   * @param {string} project Bitbucket project key.
    * @returns {Promise} A promise that will resolve to the value of the API call
    * @memberof Validator
    */
@@ -33,7 +35,7 @@ class Validator {
       projectPromises.push(this.processProjectRepos(project));
 
       Promise.all(projectPromises).then((arrayOfArrayOfPermissionErrors) => {
-        console.log(chalk.green(`${chalk.bold(project.key)}  project audit complete`));
+        console.log(chalk.green(`${chalk.bold(project)}  project audit complete`));
 
         const arrayOfPermissionErrors = [].concat.apply([], arrayOfArrayOfPermissionErrors);
 
@@ -47,14 +49,14 @@ class Validator {
   /**
    * Validate a project's group permissions
    *
-   * @param {Object} project Project configuration from config file.
+   * @param {string} project Bitbucket project key.
    * @returns {Promise} A promise that will resolve to the value of the API call
    * @memberof Validator
    */
   validateProjectGroupPermissions(project) {
     return new Promise((resolve, reject) => {
-      this.bitbucketApiClient.getProjectGroupPermissions(project.key).then((groups) => {
-        resolve(this.auditPermissions(project, '', groups, 'Group', project.projectPermissions.groups));
+      this.bitbucketApiClient.getProjectGroupPermissions(project).then((groups) => {
+        resolve(this.auditPermissions(project, '', groups, 'Group', this.options.projectPermissions.groups));
       }).catch((error) => {
         reject(new Error(error));
       });
@@ -64,14 +66,14 @@ class Validator {
   /**
    * Validate a project's user permissions
    *
-   * @param {Object} project Project configuration from config file.
+   * @param {string} project Bitbucket project key.
    * @returns {Promise} A promise that will resolve to the value of the API call
    * @memberof Validator
    */
   validateProjectUserPermissions(project) {
     return new Promise((resolve, reject) => {
-      this.bitbucketApiClient.getProjectUserPermissions(project.key).then((users) => {
-        resolve(this.auditPermissions(project, '', users, 'Users', project.projectPermissions.users));
+      this.bitbucketApiClient.getProjectUserPermissions(project).then((users) => {
+        resolve(this.auditPermissions(project, '', users, 'Users', this.options.projectPermissions.users));
       }).catch((error) => {
         reject(new Error(error));
       });
@@ -81,14 +83,14 @@ class Validator {
   /**
    * Process project repos
    *
-   * @param {Object} project Project configuration from config file.
+   * @param {string} project Bitbucket project key.
    * @returns {Promise} A promise that will resolve to the value of the API call
    * @memberof Validator
    */
   processProjectRepos(project) {
     // Fetch Repo Info Below
     return new Promise((resolve, reject) => {
-      this.bitbucketApiClient.getRepos(project.key).then((repos) => {
+      this.bitbucketApiClient.getRepos(project).then((repos) => {
         this.validateProjectRepos(project, repos).then((arrayOfPermissionErrors) => {
           resolve(arrayOfPermissionErrors);
         }).catch((error) => {
@@ -103,7 +105,7 @@ class Validator {
   /**
    * Validate project repos
    *
-   * @param {Object} project Project configuration from config file.
+   * @param {string} project Bitbucket project key.
    * @param {Array} repos Array of repos
    * @returns {Promise} A promise that will resolve to the value of the API call
    * @memberof Validator
@@ -129,7 +131,7 @@ class Validator {
   /**
    * Validate project repo
    *
-   * @param {Object} project Project configuration from config file.
+   * @param {string} project Bitbucket project key.
    * @param {Object} repo Bitbucket repo object
    * @returns {Promise} A promise that will resolve to the value of the API call
    * @memberof Validator
@@ -154,7 +156,7 @@ class Validator {
   /**
    * Validate a repo's group permissions
    *
-   * @param {Object} project Project configuration from config file.
+   * @param {string} project Bitbucket project key.
    * @param {Array} repo Bitbucket repo object
    * @returns {Promise} A promise that will resolve to the value of the API call
    * @memberof Validator
@@ -162,11 +164,7 @@ class Validator {
   validateRepoGroupPermissions(project, repo) {
     return new Promise((resolve, reject) => {
       this.bitbucketApiClient.getRepoGroupPermissions(repo.project.key, repo.slug).then((groups) => {
-        if (project.repoPermissions.hasOwnProperty(repo.slug)) {
-          resolve(this.auditPermissions(project, repo, groups, 'Group', project.repoPermissions[repo.slug].groups));
-        } else {
-          resolve([]);
-        }
+        resolve(this.auditPermissions(project, repo, groups, 'Group', this.options.repoPermissions.groups));
       }).catch(function(error) {
         reject(error);
       });
@@ -176,7 +174,7 @@ class Validator {
   /**
    * Validate a repo's user permissions
    *
-   * @param {Object} project Project configuration from config file.
+   * @param {string} project Bitbucket project key.
    * @param {Array} repo Bitbucket repo object
    * @returns {Promise} A promise that will resolve to the value of the API call
    * @memberof Validator
@@ -184,11 +182,7 @@ class Validator {
   validateRepoUserPermissions(project, repo) {
     return new Promise((resolve, reject) => {
       this.bitbucketApiClient.getRepoUserPermissions(repo.project.key, repo.slug).then((users) => {
-        if (project.repoPermissions.hasOwnProperty(repo.slug)) {
-          resolve(this.auditPermissions(project, repo, users, 'Users', project.repoPermissions[repo.slug].users));
-        } else {
-          resolve([]);
-        }
+        resolve(this.auditPermissions(project, repo, users, 'Users', this.options.repoPermissions.users));
       }).catch(function(error) {
         reject(error);
       });
@@ -198,7 +192,7 @@ class Validator {
   /**
    * Audit permissions
    *
-   * @param {Object} project Project configuration from config file.
+   * @param {string} project Bitbucket project key.
    * @param {Object} repo Bitbucket repo object
    * @param {Array} array An array of users or groups
    * @param {String} entityType Entity type of the array
@@ -207,6 +201,7 @@ class Validator {
    * @memberof Validator
    */
   auditPermissions(project, repo, array, entityType, validPermissions) {
+    /* eslint max-statements: 'off' */
     const repoName = repo.hasOwnProperty('slug') ? repo.slug : '';
     const errors = [];
 
@@ -215,7 +210,19 @@ class Validator {
       const isValidPermission = validPermissions[this.getName(arrayValue, entityType)] === this.getPermissionName(arrayValue);
 
       if (!isValidEntity || !isValidPermission) {
-        const permissionError = new PermissionError(project.key, repoName, entityType, this.getDisplayName(arrayValue, entityType), this.getPermissionName(arrayValue));
+        const permissionError = new PermissionError(project, repoName, entityType, this.getDisplayName(arrayValue, entityType), this.getPermissionName(arrayValue));
+
+        errors.push(permissionError);
+      }
+    }
+
+    const entityNames = array.map((entity) => this.getName(entity, entityType));
+
+    for (const entityName in validPermissions) {
+      const hasEntity = entityNames.includes(entityName);
+
+      if (!hasEntity) {
+        const permissionError = new PermissionError(project, repoName, entityType, entityName, validPermissions[entityName]);
 
         errors.push(permissionError);
       }
