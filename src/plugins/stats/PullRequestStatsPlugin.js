@@ -11,11 +11,16 @@ class PullRequestStatsPlugin {
   /**
    * Creates an instance of PullRequestStatsPlugin.
    * @param {Object} bitbucketApiClient BitbucketApiClient object
+   * @param {object} options PullRequestStatsPlugin options
    * @memberof PullRequestStatsPlugin
    */
-  constructor(bitbucketApiClient) {
-    this.pullRequestStatsConfig = Config.getConfig();
+  constructor(bitbucketApiClient, options) {
     this.bitbucketApiClient = bitbucketApiClient;
+    const config = Config.getOptions(options.startDate, options.endDate, options.relativeRange);
+
+    this.startDate = config.startDate;
+    this.endDate = config.endDate;
+    this.projects = options.projects;
   }
 
   /**
@@ -27,10 +32,10 @@ class PullRequestStatsPlugin {
   execute() {
     return new Promise((resolve, reject) => {
       const promises = [];
-      const harvester = new Harvester(this.bitbucketApiClient, this.pullRequestStatsConfig.startDate, this.pullRequestStatsConfig.endDate);
+      const harvester = new Harvester(this.bitbucketApiClient, this.startDate, this.endDate);
 
-      for (const project in this.pullRequestStatsConfig.projects) {
-        promises.push(harvester.harvestProject(this.pullRequestStatsConfig.projects[project]));
+      for (const project of this.projects) {
+        promises.push(harvester.harvestProject(project));
       }
 
       Promise.all(promises).then((arrayOfArrayOfPullRequestObjs) => {
