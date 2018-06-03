@@ -2,7 +2,6 @@
 
 const Reporter = require('./Reporter');
 const Validator = require('./Validator');
-const Config = require('./Config');
 
 /* eslint id-length: 'off' */
 
@@ -11,11 +10,13 @@ class PermissionsPlugin {
   /**
    * Creates an instance of PermissionsPlugin.
    * @param {Object} bitbucketApiClient BitbucketApiClient object
+   * @param {object} options StalePrsPlugin options
    * @memberof PermissionsPlugin
    */
-  constructor(bitbucketApiClient) {
-    this.permissionConfig = Config.getConfig();
+  constructor(bitbucketApiClient, options) {
     this.bitbucketApiClient = bitbucketApiClient;
+    this.options = options;
+    this.projects = options.projects;
   }
 
   /**
@@ -27,10 +28,10 @@ class PermissionsPlugin {
   execute() {
     return new Promise((resolve, reject) => {
       const promises = [];
-      const validator = new Validator(this.bitbucketApiClient);
+      const validator = new Validator(this.bitbucketApiClient, this.options);
 
-      for (const project in this.permissionConfig) {
-        promises.push(validator.validateProject(this.permissionConfig[project]));
+      for (const project of this.projects) {
+        promises.push(validator.validateProject(project));
       }
 
       Promise.all(promises).then((arrayOfArrayOfPermissionErrors) => {
