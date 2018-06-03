@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 'use strict';
 
-/* eslint-disable no-process-env: 'off' */
 require('dotenv').config();
 
 const chalk = require('chalk');
