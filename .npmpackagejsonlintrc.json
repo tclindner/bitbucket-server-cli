@@ -1,6 +1,7 @@
 {
   "extends": "npm-package-json-lint-config-tc",
   "rules": {
+    "prefer-no-version-zero-dependencies": "warning",
     "require-main": "off",
     "require-peerDependencies": "off"
   }
