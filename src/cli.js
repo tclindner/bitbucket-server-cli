@@ -8,7 +8,7 @@ const cliApp = require('commander');
 const loadJsonFile = require('load-json-file');
 const path = require('path');
 const pkg = require('./../package.json');
-const BitbucketApiClient = require('./api/BitbucketApiClient');
+const BitbucketServerApi = require('bitbucket-server-api');
 
 /**
  * Error handler
@@ -65,12 +65,12 @@ cliApp
   .description('Audit permissions')
   .option('-c, --configFile <configFile>', 'Path to config file')
   .action(function(options) {
-    const bitbucketApiClient = new BitbucketApiClient(baseUrl, username, password);
+    const apiClient = new BitbucketServerApi(baseUrl, username, password);
     const pluginOptions = loadJsonFile.sync(path.join(process.cwd(), options.configFile));
 
     pluginOptions.projects = cliApp.projects.split(',');
     const PermissionsPlugin = require('./plugins/permissions/PermissionsPlugin');
-    const permissionsPlugin = new PermissionsPlugin(bitbucketApiClient, pluginOptions);
+    const permissionsPlugin = new PermissionsPlugin(apiClient, pluginOptions);
 
     permissionsPlugin.execute().then((result) => {
       console.log(chalk.bold.green(result));
@@ -86,14 +86,14 @@ cliApp
   .description('Fetch a list of Stale PRs')
   .option('-s, --definitionOfStale <definitionOfStale>', 'Definition of stale')
   .action(function(options) {
-    const bitbucketApiClient = new BitbucketApiClient(baseUrl, username, password);
+    const apiClient = new BitbucketServerApi(baseUrl, username, password);
 
     const StalePrs = require('./plugins/stale-prs/StalePrPlugin');
     const pluginOptions = {
       definitionOfStale: options.definitionOfStale,
       projects: cliApp.projects.split(',')
     };
-    const stalePrsPlugin = new StalePrs(bitbucketApiClient, pluginOptions);
+    const stalePrsPlugin = new StalePrs(apiClient, pluginOptions);
 
     stalePrsPlugin.execute().then((result) => {
       console.log(chalk.bold.green(result));
@@ -111,7 +111,7 @@ cliApp
   .option('-e, --endDate <endDate>', 'End date stats range')
   .option('-r, --range <range>', 'Relative time range')
   .action(function(options) {
-    const bitbucketApiClient = new BitbucketApiClient(baseUrl, username, password);
+    const apiClient = new BitbucketServerApi(baseUrl, username, password);
     const PullRequestStatsPlugin = require('./plugins/stats/PullRequestStatsPlugin');
     const pluginOptions = {
       startDate: options.startDate,
@@ -119,7 +119,7 @@ cliApp
       relativeRange: options.range,
       projects: cliApp.projects.split(',')
     };
-    const pullRequestStatsPlugin = new PullRequestStatsPlugin(bitbucketApiClient, pluginOptions);
+    const pullRequestStatsPlugin = new PullRequestStatsPlugin(apiClient, pluginOptions);
 
     pullRequestStatsPlugin.execute().then((result) => {
       console.log(chalk.bold.green(result));
