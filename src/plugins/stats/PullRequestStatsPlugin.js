@@ -1,6 +1,7 @@
 'use strict';
 
 /* eslint id-length: 'off' */
+const chalk = require('chalk');
 const Reporter = require('./Reporter');
 const Harvester = require('./Harvester');
 const Aggregator = require('./Aggregator');
@@ -43,10 +44,20 @@ class PullRequestStatsPlugin {
         const aggregator = new Aggregator();
 
         aggregator.aggregate(arrayOfPullRequestObjs);
-        Reporter.write(aggregator.getOverallStats(), 'overall');
-        Reporter.write(aggregator.getProjectStats(), 'project');
-        Reporter.write(aggregator.getRepoStats(), 'repo');
-        resolve('Pull Request Stats Plugin Completed Successfully');
+
+        const results = {
+          overall: aggregator.getOverallStats(),
+          projects: aggregator.getProjectStats(),
+          repos: aggregator.getRepoStats()
+        };
+
+        Reporter.write(results.overall, 'overall');
+        Reporter.write(results.projects, 'project');
+        Reporter.write(results.repos, 'repo');
+
+        console.log(chalk.bold.green('Pull Request Stats Plugin Completed Successfully'));
+
+        resolve(results);
       }).catch((error) => {
         reject(new Error(error));
       });
