@@ -22,35 +22,32 @@ describe('Reporter Unit Tests', function() {
       });
 
       it('with an array with zero errors is passed a formatted message should be returned saying there are no errors', function() {
-        const reporter = new Reporter();
         const errors = [];
         const output = chalk.green.bold('No permission errors found!');
 
-        reporter.write(errors);
+        Reporter.write(errors);
         spy.withArgs(output).calledOnce.should.be.true;
       });
 
       it('when an array with one error is passed a formatted message should be returned saying there is one error', function() {
-        const reporter = new Reporter();
         const errors = [];
         const output = `${chalk.red.bold(1)} permission error found.`;
 
         errors.push(new PermissionError('PROJECT', 'repoKey', 'Users', 'Thomas', 'REPO_ADMIN'));
 
-        reporter.write(errors);
+        Reporter.write(errors);
         spy.calledTwice.should.be.true;
         spy.secondCall.calledWithExactly(output).should.be.true;
       });
 
       it('when an array with twos errors are passed a formatted message should be returned saying there are two errors', function() {
-        const reporter = new Reporter();
         const errors = [];
         const output = `${chalk.red.bold(2)} permission errors found.`;
 
         errors.push(new PermissionError('PROJECT', 'repoKey', 'Users', 'Thomas', 'REPO_ADMIN'));
         errors.push(new PermissionError('PROJECT', 'repoKey', 'Users', 'Thomas', 'REPO_ADMIN'));
 
-        reporter.write(errors);
+        Reporter.write(errors);
         spy.calledThrice.should.be.true;
         spy.thirdCall.calledWithExactly(output).should.be.true;
       });
