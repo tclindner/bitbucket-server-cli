@@ -1,5 +1,6 @@
 'use strict';
 
+const chalk = require('chalk');
 const Reporter = require('./Reporter');
 const Validator = require('./Validator');
 
@@ -38,7 +39,10 @@ class PermissionsPlugin {
         const arrayOfPermissionErrors = [].concat.apply([], arrayOfArrayOfPermissionErrors);
 
         Reporter.write(arrayOfPermissionErrors);
-        resolve('Permissions Plugin Completed Successfully');
+
+        console.log(chalk.bold.green('Permissions Plugin Completed Successfully'));
+
+        resolve(arrayOfPermissionErrors);
       }).catch((error) => {
         reject(new Error(error));
       });

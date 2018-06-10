@@ -1,5 +1,6 @@
 'use strict';
 
+const chalk = require('chalk');
 const Reporter = require('./Reporter');
 const Auditor = require('./Auditor');
 
@@ -39,7 +40,9 @@ class StalePrs {
 
         Reporter.write(arrayOfPullRequestObjects);
 
-        resolve('Stale PRs Plugin Completed Successfully');
+        console.log(chalk.bold.green('Stale PRs Plugin Completed Successfully'));
+
+        resolve(arrayOfPullRequestObjects);
       }).catch((error) => {
         reject(new Error(error));
       });
