@@ -52,7 +52,7 @@ describe('PullRequest Unit Tests', function() {
       });
 
       it('_createdDate should be equal to 1457139523140', function() {
-        pullRequest._createdDate.should.equal('2016-03-04');
+        pullRequest._createdDate.should.equal('2016-03-05');
       });
 
       it('_fromBranchName should be equal to 1', function() {
