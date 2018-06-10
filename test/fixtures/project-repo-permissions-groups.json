@@ -1,0 +1,14 @@
+{
+  "size": 1,
+  "limit": 25,
+  "isLastPage": true,
+  "values": [
+    {
+      "group": {
+        "name": "group_a"
+      },
+      "permission": "ADMIN"
+    }
+  ],
+  "start": 0
+}
