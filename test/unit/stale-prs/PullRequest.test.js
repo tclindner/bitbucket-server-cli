@@ -10,21 +10,21 @@ describe('PullRequest Unit Tests', function() {
     context('when all arguments are passed', function() {
       let pullRequest;
       const dummyPullRequestObj = {
-          id: 1,
-          title: 'title',
-          author: {
-              user: {
-                  displayName: 'Some, Dude'
-              }
-          },
-          createdDate: 1457139523140,
-          updatedDate: 1457139523140,
-          fromRef: {
-              displayId: 1
-          },
-          toRef: {
-              displayId: 2
+        id: 1,
+        title: 'title',
+        author: {
+          user: {
+            displayName: 'Some, Dude'
           }
+        },
+        createdDate: 1457139523140,
+        updatedDate: 1457139523140,
+        fromRef: {
+          displayId: 1
+        },
+        toRef: {
+          displayId: 2
+        }
       };
 
       before(function() {

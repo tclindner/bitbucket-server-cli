@@ -11,7 +11,7 @@ const should = chai.should();
 describe('Reporter Unit Tests', function() {
   describe('write method', function() {
     context('when an array is passed', function() {
-      let dummyPullRequestObj = {
+      const dummyPullRequestObj = {
         id: 1,
         title: '',
         author: {
