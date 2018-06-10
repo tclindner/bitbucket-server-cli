@@ -1,5 +1,6 @@
 'use strict';
 
+const chai = require('chai');
 const chalk = require('chalk');
 const sinon = require('sinon');
 const PermissionError = require('./../../../src/plugins/permissions/PermissionError');
@@ -32,7 +33,7 @@ describe('Reporter Unit Tests', function() {
       it('when an array with one error is passed a formatted message should be returned saying there is one error', function() {
         const reporter = new Reporter();
         const errors = [];
-        const output = chalk.red.bold(1) + ' permission error found.';
+        const output = `${chalk.red.bold(1)} permission error found.`;
 
         errors.push(new PermissionError('PROJECT', 'repoKey', 'Users', 'Thomas', 'REPO_ADMIN'));
 
@@ -44,7 +45,7 @@ describe('Reporter Unit Tests', function() {
       it('when an array with twos errors are passed a formatted message should be returned saying there are two errors', function() {
         const reporter = new Reporter();
         const errors = [];
-        const output = chalk.red.bold(2) + ' permission errors found.';
+        const output = `${chalk.red.bold(2)} permission errors found.`;
 
         errors.push(new PermissionError('PROJECT', 'repoKey', 'Users', 'Thomas', 'REPO_ADMIN'));
         errors.push(new PermissionError('PROJECT', 'repoKey', 'Users', 'Thomas', 'REPO_ADMIN'));

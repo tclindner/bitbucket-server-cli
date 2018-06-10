@@ -11,7 +11,7 @@ const should = chai.should();
 describe('PermissionError Unit Tests', function() {
   describe('constructor', function() {
     context('when all arguments are passed', function() {
-      const permissionError;
+      let permissionError;
 
       before(function() {
         permissionError = new PermissionError('PROJECT', 'repo', 'Users', 'Thomas', 'REPO_ADMIN');
