@@ -38,7 +38,7 @@
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "eslint": "^5.12.1",
-    "eslint-config-tc": "^5.1.0",
+    "eslint-config-tc": "^4.0.0",
     "eslint-plugin-import": "^2.20.2",
     "eslint-formatter-pretty": "^2.1.1",
     "mocha": "^5.2.0",
