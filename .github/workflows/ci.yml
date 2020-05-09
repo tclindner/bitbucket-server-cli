@@ -15,7 +15,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: '12.x'
-      - run: npm ci --no-progress
+      - run: npm i --no-progress
       - run: npm run lint
 
   test:
