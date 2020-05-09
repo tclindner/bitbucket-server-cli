@@ -1,5 +1,3 @@
-'use strict';
-
 const chalk = require('chalk');
 const chai = require('chai');
 const PermissionError = require('./../../../src/plugins/permissions/PermissionError');
@@ -8,9 +6,9 @@ const should = chai.should();
 
 /* eslint prefer-template: 'off' */
 
-describe('PermissionError Unit Tests', function() {
-  describe('constructor', function() {
-    context('when all arguments are passed', function() {
+describe('PermissionError Unit Tests', () => {
+  describe('constructor', () => {
+    context('when all arguments are passed', () => {
       let permissionError;
 
       before(function() {

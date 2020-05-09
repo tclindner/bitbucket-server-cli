@@ -155,6 +155,7 @@ class Stats {
    * @returns {String} Formatted message
    * @memberof Stats
    */
+  /* eslint-disable-next-line max-lines-per-function, require-jsdoc */
   _getWeekdayMessage() {
     let message = this._getDivider();
 
